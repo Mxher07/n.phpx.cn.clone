@@ -1,0 +1,590 @@
+  
+<!DOCTYPE html>
+<html lang="zh">
+
+<!-- Mirrored from n.phpx.cn/backstab/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:31:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背刺榜 - 谁是最受欢迎的背刺者</title>
+    <link rel="stylesheet" href="../css/style.html">
+    <style>
+        .backstab-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #f6f8ff 0%, #e9ecef 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .page-title {
+            color: #2b3a55;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .tab-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            justify-content: center;
+            background: white;
+            padding: 8px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: transparent;
+            color: #2b3a55;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .tab-button:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        .tab-button.active {
+            background: #ce1d1d;
+            color: white;
+            box-shadow: 0 4px 8px rgba(206, 29, 29, 0.2);
+        }
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        .ranking-title {
+            color: #2b3a55;
+            font-size: 2.2em;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+        }
+        .ranking-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+        .ranking-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        }
+        .rank-badge {
+            background: linear-gradient(135deg, #ce1d1d, #ff4d4d);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 20px;
+            box-shadow: 0 4px 8px rgba(206, 29, 29, 0.2);
+        }
+        .player-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .player-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2b3a55;
+        }
+        .player-stats {
+            display: flex;
+            gap: 20px;
+            color: #6c757d;
+        }
+        .like-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ce1d1d;
+            font-weight: 600;
+        }
+        .like-btn {
+            background: transparent;
+            border: 2px solid #ce1d1d;
+            color: #ce1d1d;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .like-btn:hover {
+            background: #ce1d1d;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(206, 29, 29, 0.2);
+        }
+        .like-btn:disabled {
+            border-color: #ced4da;
+            color: #ced4da;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        @media (max-width: 600px) {
+            .backstab-container {
+                padding: 15px;
+            }
+            .ranking-item {
+                padding: 12px 15px;
+            }
+            .player-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="backstab-container">
+        <div class="tab-buttons">
+            <a href="index-2.html" class="tab-button active">背刺排行</a>
+            <a href="nominations.html" class="tab-button">提名审核</a>
+        </div>
+
+        <h2>谁是最受欢迎的背刺王</h2>
+        
+        <div class="rankings-list">
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#1</span>
+                    <div class="player-details">
+                        <span class="player-name">背刺王</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                111 赞
+                            </span>
+                            <span class="rank-score">积分: -85</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#2</span>
+                    <div class="player-details">
+                        <span class="player-name">暗区突围启动👿</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                76 赞
+                            </span>
+                            <span class="rank-score">积分: 750</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#3</span>
+                    <div class="player-details">
+                        <span class="player-name">魔神</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                52 赞
+                            </span>
+                            <span class="rank-score">积分: 10015</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#4</span>
+                    <div class="player-details">
+                        <span class="player-name">Unnamed780</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                34 赞
+                            </span>
+                            <span class="rank-score">积分: 10740</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#5</span>
+                    <div class="player-details">
+                        <span class="player-name">给木给木</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                17 赞
+                            </span>
+                            <span class="rank-score">积分: 1935</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#6</span>
+                    <div class="player-details">
+                        <span class="player-name">刘</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                16 赞
+                            </span>
+                            <span class="rank-score">积分: 100</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#7</span>
+                    <div class="player-details">
+                        <span class="player-name">闪烁</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                16 赞
+                            </span>
+                            <span class="rank-score">积分: 75</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#8</span>
+                    <div class="player-details">
+                        <span class="player-name">终极黑暗暴龙兽之暗夜魔王</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                13 赞
+                            </span>
+                            <span class="rank-score">积分: 155</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#9</span>
+                    <div class="player-details">
+                        <span class="player-name">你的盐，我的醋，潮汕人民注意米和锅</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                10 赞
+                            </span>
+                            <span class="rank-score">积分: 220</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#10</span>
+                    <div class="player-details">
+                        <span class="player-name">魔神2</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                9 赞
+                            </span>
+                            <span class="rank-score">积分: 100</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#11</span>
+                    <div class="player-details">
+                        <span class="player-name">秋风</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                8 赞
+                            </span>
+                            <span class="rank-score">积分: 7935</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#12</span>
+                    <div class="player-details">
+                        <span class="player-name">魔神2</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                7 赞
+                            </span>
+                            <span class="rank-score">积分: 100</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#13</span>
+                    <div class="player-details">
+                        <span class="player-name">南征北战</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                6 赞
+                            </span>
+                            <span class="rank-score">积分: 30320</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#14</span>
+                    <div class="player-details">
+                        <span class="player-name">小呆那</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                6 赞
+                            </span>
+                            <span class="rank-score">积分: 4605</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#15</span>
+                    <div class="player-details">
+                        <span class="player-name">幸运花花</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                5 赞
+                            </span>
+                            <span class="rank-score">积分: -85</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#16</span>
+                    <div class="player-details">
+                        <span class="player-name">暗区突围启动😈2</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                2 赞
+                            </span>
+                            <span class="rank-score">积分: 85</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#17</span>
+                    <div class="player-details">
+                        <span class="player-name">魔神2</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                2 赞
+                            </span>
+                            <span class="rank-score">积分: 100</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#18</span>
+                    <div class="player-details">
+                        <span class="player-name">bibi羁绊</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                2 赞
+                            </span>
+                            <span class="rank-score">积分: 3660</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#19</span>
+                    <div class="player-details">
+                        <span class="player-name">金将军🌞万岁！</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                2 赞
+                            </span>
+                            <span class="rank-score">积分: 1495</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#20</span>
+                    <div class="player-details">
+                        <span class="player-name">咬人猫</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                2 赞
+                            </span>
+                            <span class="rank-score">积分: 8955</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#21</span>
+                    <div class="player-details">
+                        <span class="player-name">我不背刺</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                1 赞
+                            </span>
+                            <span class="rank-score">积分: -60</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#22</span>
+                    <div class="player-details">
+                        <span class="player-name">慕伊</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                0 赞
+                            </span>
+                            <span class="rank-score">积分: 120</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#23</span>
+                    <div class="player-details">
+                        <span class="player-name"></span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                0 赞
+                            </span>
+                            <span class="rank-score">积分: </span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#24</span>
+                    <div class="player-details">
+                        <span class="player-name"></span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                0 赞
+                            </span>
+                            <span class="rank-score">积分: </span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        <div class="ranking-item">
+                <div class="player-info">
+                    <span class="rank-badge">#25</span>
+                    <div class="player-details">
+                        <span class="player-name">叶天</span>
+                        <div class="player-stats">
+                            <span class="like-count">
+                                <i class="fas fa-heart"></i>
+                                0 赞
+                            </span>
+                            <span class="rank-score">积分: 320</span>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                    </div>
+    </div>
+
+    <script>
+    function likePlayer(playerId) {
+        // 禁用点赞按钮，防止重复点击
+        const button = document.querySelector(`button[data-player-id="${playerId}"]`);
+        if (button) {
+            button.disabled = true;
+        }
+
+        fetch('like.json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `player_id=${playerId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // 成功后刷新页面
+            } else {
+                alert(data.message);
+                if (button) {
+                    button.disabled = false; // 失败时重新启用按钮
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('操作失败，请重试');
+            if (button) {
+                button.disabled = false;
+            }
+        });
+    }
+    </script>
+</body>
+
+<!-- Mirrored from n.phpx.cn/backstab/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:31:13 GMT -->
+</html> 

@@ -1,0 +1,390 @@
+  
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from n.phpx.cn/shop.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>商店 - 特权称号</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4a90e2">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --border-color: #e1e8ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 10px;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .shop-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .shop-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: 2px solid #e1e8ed;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .price {
+            font-size: 1.8em;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .price small {
+            font-size: 0.5em;
+            color: #666;
+        }
+
+        .features {
+            list-style: none;
+            margin: 15px 0;
+            text-align: left;
+            padding: 0 10px;
+        }
+
+        .features li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .buy-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .buy-btn:hover {
+            background: #357abd;
+            transform: scale(1.05);
+        }
+
+        .buy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .notice {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .notice h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .notice p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* 底部导航栏样式继承自 index.php */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            transition: all 0.3s ease;
+            padding: 4px 16px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .shop-items {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 添加弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        .modal-qq {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        .modal-close {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加弹窗 HTML -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">联系客服</div>
+            <div class="modal-text">
+                请添加客服QQ进行赞助<br>
+                <span class="modal-qq">1293262155</span>
+            </div>
+            <button class="modal-close" onclick="closeModal()">关闭</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>特权商店</h1>
+        
+        <div class="notice">
+            <h3>赞助说明</h3>
+            <p>请私信客服QQ：1293262155，联系管理员进行赞助。赞助后即可获得对应特权！</p>
+        </div>
+
+        <div class="shop-items">
+            <div class="shop-item">
+                <div>
+                    <h2>基础赞助</h2>
+                    <div class="price">6<small>元</small></div>
+                    <ul class="features">
+                        <li>一周游戏自定义称号</li>
+                        <li>称号颜色自选</li>
+                        <li>进服特殊欢迎语</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="showModal()">立即购买</button>
+            </div>
+
+            <div class="shop-item">
+                <div>
+                    <h2>进阶赞助</h2>
+                    <div class="price">16<small>元</small></div>
+                    <ul class="features">
+                        <li>一个月游戏自定义称号</li>
+                        <li>称号颜色自选</li>
+                        <li>进服特殊欢迎语</li>
+                        <li>群专属头衔</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="showModal()">立即购买</button>
+            </div>
+
+            <div class="shop-item">
+                <div>
+                    <h2>豪华赞助</h2>
+                    <div class="price">40<small>元</small></div>
+                    <ul class="features">
+                        <li>三个月游戏自定义称号</li>
+                        <li>称号颜色自选</li>
+                        <li>进服特殊欢迎语</li>
+                        <li>群专属头衔</li>
+                        <li>优先客服服务</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="showModal()">立即购买</button>
+            </div>
+
+            <div class="shop-item">
+                <div>
+                    <h2>至尊赞助</h2>
+                    <div class="price">99<small>元</small></div>
+                    <ul class="features">
+                        <li>永久游戏自定义称号</li>
+                        <li>称号颜色自选</li>
+                        <li>进服特殊欢迎语</li>
+                        <li>群专属头衔</li>
+                        <li>专属客服服务</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="showModal()">立即购买</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加弹窗相关 JavaScript -->
+    <script>
+        function showModal() {
+            document.getElementById('contactModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // 点击弹窗外部关闭弹窗
+        window.onclick = function(event) {
+            var modal = document.getElementById('contactModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="index-2.html" class="nav-item">
+            <div class="nav-icon"><span>🏆</span></div>
+            <span class="nav-text">排行榜</span>
+        </a>
+        <a href="blacklist.html" class="nav-item">
+            <div class="nav-icon"><span>🚫</span></div>
+            <span class="nav-text">小黑屋</span>
+        </a>
+        <a href="shop.html" class="nav-item active">
+            <div class="nav-icon"><span>🛍️</span></div>
+            <span class="nav-text">商店</span>
+        </a>
+        <a href="videos/index.html" class="nav-item">
+            <div class="nav-icon"><span>📹</span></div>
+            <span class="nav-text">精彩瞬间</span>
+        </a>
+        <a href="backstab/index.html" class="nav-item">
+            <div class="nav-icon"><span>🗡️</span></div>
+            <span class="nav-text">背刺榜</span>
+        </a>
+                    <a href="login.html" class="nav-item">
+                <div class="nav-icon"><span>👤</span></div>
+                <span class="nav-text">登录</span>
+            </a>
+            </nav>
+</body>
+
+<!-- Mirrored from n.phpx.cn/shop.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:52 GMT -->
+</html> 

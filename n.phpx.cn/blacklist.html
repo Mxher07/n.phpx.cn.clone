@@ -1,0 +1,1136 @@
+  
+<!DOCTYPE html>
+<html lang="zh">
+
+<!-- Mirrored from n.phpx.cn/blacklist.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小黑屋 - 封禁玩家名单</title>
+    <link rel="stylesheet" href="css/style.html">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+
+        .prison-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, rgba(40,40,40,0.9), rgba(20,20,20,0.9));
+            border-bottom: 3px solid #ff4d4f;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="0" width="2" height="20" fill="rgba(255,77,79,0.1)"/><rect x="0" y="9" width="20" height="2" fill="rgba(255,77,79,0.1)"/></svg>');
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .header-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff4d4f, #ff7875);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .prison-stats {
+            text-align: center;
+            color: #999;
+            margin-top: 10px;
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cells-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .cell {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .cell:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,77,79,0.1);
+        }
+
+        .cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff4d4f, transparent);
+        }
+
+        .prisoner-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .prisoner-avatar {
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .prisoner-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            flex-grow: 1;
+        }
+
+        .sentence-type {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            background: rgba(255,77,79,0.1);
+            border: 1px solid rgba(255,77,79,0.2);
+        }
+
+        .sentence-type::before {
+            content: '⚡';
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        .permanent {
+            background: rgba(255,77,79,0.15);
+            border-color: rgba(255,77,79,0.3);
+        }
+
+        .sentence-details {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .time-remaining {
+            color: #ff7875;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .release-date {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .reason {
+            position: relative;
+            padding-left: 15px;
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .reason::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #ff4d4f;
+            border-radius: 3px;
+        }
+
+        .no-prisoners {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin: 20px;
+        }
+
+        .no-prisoners-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .no-prisoners-text {
+            font-size: 20px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 28px;
+            }
+            
+            .cells-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">监狱档案库</h1>
+        <div class="prison-stats">
+            当前在押人数：45        </div>
+    </header>
+
+    <div class="prison-container">
+                    <div class="cells-grid">
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                铁锈全汉化版玩家6762                            </div>
+                        </div>
+                        
+                        <div class="sentence-type permanent">
+                            终身监禁                        </div>
+
+                        <div class="sentence-details">
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                HT^T2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 359 天 3 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-30 12:46:12                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                路小雨⁢ ⁠                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 356 天 18 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-28 03:38:23                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                萌新宝宝                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 347 天 18 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-19 04:06:17                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                MTF-九尾狐（帝国会）                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:03:25                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                九尾狐2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:02:51                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                九尾狐2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:02:34                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                九尾狐2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:02:17                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                九尾狐2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:01:53                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                九尾狐2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:01:36                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                九尾狐                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 339 天 4 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-10 14:01:17                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                百事可乐                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:13:56                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                机枪永远的神                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:13:40                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                怵梦                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:13:04                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                黍²                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:11:05                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                东星乌鸦2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:10:43                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                门口看看嘛                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:10:22                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                ★★略术决策♞战功赫赫★★                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:09:49                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                alexosoles                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:09:27                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                ggbondq                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:09:01                                </div>
+                            
+                                                            <div class="reason">
+                                    开透视挂                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                隆美尔2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:08:18                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                抓住他                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:07:40                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                星星2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:06:50                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                东星乌鸦                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:05:35                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                三观被震惊的张贵生（收徒ing....）                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:05:12                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                无敌大神488                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:03:51                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                抢矿我最狂🤓                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:03:22                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                充电器                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 338 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2026-03-09 16:02:59                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                王梦博                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 153 天 6 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-09-05 16:01:07                                </div>
+                            
+                                                            <div class="reason">
+                                    恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                小白                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    剩余 4 天 5 小时                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-04-09 14:55:19                                </div>
+                            
+                                                            <div class="reason">
+                                    辱骂他人                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                如初大帝                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-03-31 04:04:30                                </div>
+                            
+                                                            <div class="reason">
+                                    透视                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                暗区突围启动👿                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-03-31 03:29:49                                </div>
+                            
+                                                            <div class="reason">
+                                    和他好师傅恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                如初(收徒)2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-03-31 03:29:33                                </div>
+                            
+                                                            <div class="reason">
+                                    和他好徒弟恶意组队                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                UVV                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-03-29 14:10:19                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                咬人猫                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-03-05 05:25:01                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                吞国                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-25 10:22:21                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                橙子                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-23 11:55:36                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                落梦                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-22 11:35:53                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                秋日2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-22 11:35:36                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                ꧁༺༽༾旦木ཏ༿༼༻꧂2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-21 14:51:35                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                ꧁༺༽༾旦木ཏ༿༼༻꧂                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-21 14:51:17                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                killer-skip2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-21 14:50:34                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                哒哒哒画家                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-19 11:14:55                                </div>
+                            
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                铁锈全汉化版玩家2242                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-15 06:51:51                                </div>
+                            
+                                                            <div class="reason">
+                                    测试                                </div>
+                                                    </div>
+                    </div>
+                                    <div class="cell">
+                        <div class="prisoner-info">
+                            <div class="prisoner-avatar">👤</div>
+                            <div class="prisoner-name">
+                                神明2                            </div>
+                        </div>
+                        
+                        <div class="sentence-type ">
+                            临时监禁                        </div>
+
+                        <div class="sentence-details">
+                                                            <div class="time-remaining">
+                                    已结束                                </div>
+                                <div class="release-date">
+                                    预计释放时间：2025-02-13 19:43:32                                </div>
+                            
+                                                    </div>
+                    </div>
+                            </div>
+            </div>
+
+    <nav class="bottom-nav">
+        <a href="index-2.html" class="nav-item">
+            <div class="nav-icon"><span>🏆</span></div>
+            <span class="nav-text">排行榜</span>
+        </a>
+        <a href="blacklist.html" class="nav-item active">
+            <div class="nav-icon"><span>🚫</span></div>
+            <span class="nav-text">小黑屋</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <div class="nav-icon"><span>🛍️</span></div>
+            <span class="nav-text">商店</span>
+        </a>
+        <a href="videos/index.html" class="nav-item">
+            <div class="nav-icon"><span>📹</span></div>
+            <span class="nav-text">精彩瞬间</span>
+        </a>
+        <a href="backstab/index.html" class="nav-item">
+            <div class="nav-icon"><span>🗡️</span></div>
+            <span class="nav-text">背刺榜</span>
+        </a>
+                    <a href="login.html" class="nav-item">
+                <div class="nav-icon"><span>👤</span></div>
+                <span class="nav-text">登录</span>
+            </a>
+            </nav>
+</body>
+
+<!-- Mirrored from n.phpx.cn/blacklist.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:52 GMT -->
+</html>
+

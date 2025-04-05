@@ -1,0 +1,573 @@
+   
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from n.phpx.cn/videos/index.php?sort=popular by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:32:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>精彩瞬间 - 游戏视频分享</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 比例 */
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .video-info {
+            padding: 12px;
+        }
+        
+        .video-title {
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 42px;
+            color: #333;
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .video-player {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+        
+        .video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .player-name {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .player-rank {
+            margin-left: 6px;
+            padding: 2px 6px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .sort-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-option {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: #555;
+        }
+        
+        .sort-option.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 30px 0;
+        }
+        
+        .page-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .page-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .page-link:hover:not(.active) {
+            background: #f0f0f0;
+        }
+        
+        .upload-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .upload-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .empty-state-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .empty-state-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .page-header-icon {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+            
+            .video-title {
+                font-size: 14px;
+                height: 36px;
+            }
+            
+            .video-info {
+                padding: 8px;
+            }
+            
+            .player-name {
+                font-size: 12px;
+            }
+            
+            .player-rank {
+                font-size: 10px;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+                padding: 12px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+        
+        .floating-upload-btn {
+            position: fixed;
+            bottom: 80px;  /* 调整位置以避免与底部导航栏重叠 */
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .floating-upload-btn span {
+            font-size: 32px;
+            line-height: 1;
+        }
+        
+        .floating-upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        
+        .floating-upload-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .video-card.disabled {
+            opacity: 0.7;
+            position: relative;
+        }
+        
+        .video-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 77, 79, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1;
+        }
+        
+        .admin-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .admin-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #1890ff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .admin-btn:hover {
+            background: #096dd9;
+            transform: translateY(-2px);
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #ff4d4f;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        
+        .video-status.pending {
+            background: rgba(250, 173, 20, 0.9);
+        }
+        
+        .video-card.pending {
+            opacity: 0.8;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <span class="page-header-icon">📹</span>
+            <h1>精彩瞬间</h1>
+        </div>
+        
+        <div class="filter-bar">
+            <div>
+                <h3 style="margin: 0; color: #333;">游戏视频分享</h3>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">分享你的游戏精彩瞬间</p>
+            </div>
+            <div class="sort-options">
+                <a href="indexc84d-2.html?sort=latest" class="sort-option ">最新</a>
+                <a href="indexfd57-2.html?sort=popular" class="sort-option active">最多观看</a>
+                <a href="index5fdb-2.html?sort=liked" class="sort-option ">最多点赞</a>
+            </div>
+        </div>
+        
+                <div class="video-grid">
+                            <a href="view4411.html?id=37" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67d040f650f64_1741701366_cover.jpg" alt="杂鱼♡杂鱼♡">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">杂鱼♡杂鱼♡</h3>
+                        <div class="player-name">
+                            陈醋与海盐                            <span class="player-rank">大魂师</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>244 次观看</span>
+                            <span>2025-03-11</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="view2580.html?id=43" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67d1a7cc352a7_1741793228_cover.jpg" alt="演都不演了(我要出厂了)">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">演都不演了(我要出厂了)</h3>
+                        <div class="player-name">
+                            速攻小号                            <span class="player-rank">魂王</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>223 次观看</span>
+                            <span>2025-03-12</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="viewe5cc.html?id=20" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67cff82e6d514_1741682734_cover.jpg" alt="主播主播，我喜欢你❤️">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">主播主播，我喜欢你❤️</h3>
+                        <div class="player-name">
+                            铁锈全汉化版玩家6852                            <span class="player-rank">魂尊</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>132 次观看</span>
+                            <span>2025-03-11</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="view6258.html?id=21" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67d00c6825392_1741687912_cover.jpg" alt="王小桃你给我低调点">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">王小桃你给我低调点</h3>
+                        <div class="player-name">
+                            铁锈全汉化版玩家6852                            <span class="player-rank">魂尊</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>107 次观看</span>
+                            <span>2025-03-11</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="viewa9bc.html?id=19" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67cff562031b5_1741682018_cover.jpg" alt="爱丽丝在网上就是爹">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">爱丽丝在网上就是爹</h3>
+                        <div class="player-name">
+                            神                            <span class="player-rank">魂宗</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>76 次观看</span>
+                            <span>2025-03-11</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="view1e35.html?id=39" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67d190f10e64f_1741787377_cover.jpg" alt="上线就送100抽">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">上线就送100抽</h3>
+                        <div class="player-name">
+                            😡2                            <span class="player-rank">魂师</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>68 次观看</span>
+                            <span>2025-03-12</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="viewcdef.html?id=38" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67d18f931f054_1741787027_cover.jpg" alt="小八买切糕">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">小八买切糕</h3>
+                        <div class="player-name">
+                            😡2                            <span class="player-rank">魂师</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>43 次观看</span>
+                            <span>2025-03-12</span>
+                        </div>
+                    </div>
+                </a>
+                            <a href="view40ac.html?id=35" class="video-card ">
+                                        <div class="video-thumbnail">
+                        <img src="../uploads/thumbnails/video_67d02597eeba3_1741694359_cover.jpg" alt="统治世界的宣言">
+                        <div class="video-duration">00:00</div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">统治世界的宣言</h3>
+                        <div class="player-name">
+                            😡2                            <span class="player-rank">魂师</span>
+                        </div>
+                        <div class="video-meta">
+                            <span>43 次观看</span>
+                            <span>2025-03-11</span>
+                        </div>
+                    </div>
+                </a>
+                    </div>
+        
+                
+        <!-- 添加悬浮的上传按钮 -->
+        <a href="../login9887.html?redirect=videos/upload.php" 
+           class="floating-upload-btn" 
+           title="登录后上传视频">
+            <span>+</span>
+        </a>
+            </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="../index.html" class="nav-item">
+            <div class="nav-icon"><span>🏆</span></div>
+            <span class="nav-text">排行榜</span>
+        </a>
+        <a href="../blacklist.html" class="nav-item">
+            <div class="nav-icon"><span>🚫</span></div>
+            <span class="nav-text">小黑屋</span>
+        </a>
+        <a href="../shop.html" class="nav-item">
+            <div class="nav-icon"><span>🛍️</span></div>
+            <span class="nav-text">商店</span>
+        </a>
+        <a href="index.html" class="nav-item active">
+            <div class="nav-icon"><span>📹</span></div>
+            <span class="nav-text">精彩瞬间</span>
+        </a>
+        <a href="../backstab/index.html" class="nav-item">
+            <div class="nav-icon"><span>🗡️</span></div>
+            <span class="nav-text">背刺榜</span>
+        </a>
+                    <a href="../login.html" class="nav-item">
+                <div class="nav-icon"><span>👤</span></div>
+                <span class="nav-text">登录</span>
+            </a>
+            </nav>
+</body>
+
+<!-- Mirrored from n.phpx.cn/videos/index.php?sort=popular by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:32:33 GMT -->
+</html>
+
+ 

@@ -1,0 +1,1022 @@
+ 
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from n.phpx.cn/player_detail.php?id=2489 by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>屯蛋玩家 - 玩家详细信息</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans SC', Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .player-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .player-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .status-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .match-history {
+            margin-top: 20px;
+        }
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .match-item {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+        }
+        .match-header {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .map-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 15px;
+        }
+        .match-time {
+            color: #666;
+            font-size: 12px;
+        }
+        .match-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 13px;
+            color: #444;
+        }
+        .match-details p {
+            margin: 0;
+        }
+        .match-details .full-width {
+            grid-column: 1 / -1;
+        }
+        .match-result {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        .match-result.win {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(255,215,0,0.3);
+        }
+        .match-result.lose {
+            background: #dc3545;
+            color: white;
+        }
+        .rank-1 {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(255,215,0,0.3);
+        }
+        .rank-2 {
+            background: linear-gradient(45deg, #c0c0c0, #a9a9a9);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .rank-3 {
+            background: linear-gradient(45deg, #cd7f32, #b87333);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .rank-4 {
+            background: #4a90e2;
+            color: white;
+        }
+        .rank-5 {
+            background: #40a9ff;
+            color: white;
+        }
+        .rank-other {
+            background: linear-gradient(45deg, #dc3545, #ff4d4f);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .match-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .score-chart-container {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            height: 200px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .status-online { 
+            background: #28a745; 
+            color: white; 
+        }
+        .status-offline { 
+            background: #dc3545; 
+            color: white; 
+        }
+        .no-matches {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .ban-status {
+            background: #fff1f0;
+            border: 1px solid #ffa39e;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .banned {
+            color: #cf1322;
+            font-weight: bold;
+        }
+        
+        .admin-controls {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            border-radius: 4px;
+        }
+        
+        .ban-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .ban-form select,
+        .ban-form input {
+            padding: 8px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+        }
+        
+        .ban-button {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .ban-button:hover {
+            background: #ff7875;
+        }
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            .player-header {
+                padding-bottom: 15px;
+                margin-bottom: 15px;
+            }
+            .player-name {
+                font-size: 20px;
+            }
+            .match-details {
+                grid-template-columns: 1fr;
+            }
+            .match-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        .delete-account-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ffccc7;
+        }
+        
+        .delete-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .delete-form input {
+            padding: 8px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            flex-grow: 1;
+        }
+        
+        .delete-button {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .delete-button:hover {
+            background: #ff7875;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index-2.html" class="back-button">返回排行榜</a>
+        
+        <div class="player-header">
+            <span class="player-name">屯蛋玩家</span>
+                            <span class="status-badge status-offline">
+                    离线                </span>
+                    </div>
+
+        <div class="score-chart-container">
+            <div class="chart-title">积分变化趋势</div>
+            <canvas id="scoreChart"></canvas>
+        </div>
+
+                <div class="status-info">
+            <h3>当前状态</h3>
+            <p>状态描述: 在战役室</p>
+                            <p>上次登录时间: 2025-03-27 14:49:20</p>
+            
+            
+            
+            
+            
+                    </div>
+        
+        <div class="match-history">
+            <h3>最近对局记录</h3>
+                            <div class="match-list">
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-03-16 00:28:04                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>94/64</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>20/15</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>814</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>15</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-4">
+                                    第4名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-04 22:42:09                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>1/6</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>0/5</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>13110</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-03 06:14:12                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>76/57</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>6/29</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>81630</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-03 03:31:43                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>7/22</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>10/16</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>82098</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-03 03:21:12                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>19/22</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>4/11</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>3423</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>-10</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-other">
+                                    第6名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-02 07:42:24                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>405/350</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>348/44</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>7807</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>-30</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-other">
+                                    第10名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-02 07:21:52                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>8/10</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>5/4</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>42920</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>-10</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-other">
+                                    第6名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-02 06:26:02                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>1/25</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>0/13</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>60916</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-3">
+                                    第3名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-02 05:29:44                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>9/11</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>0/12</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>31140</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-3">
+                                    第3名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-02 05:02:39                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>55/34</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>8/25</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>32684</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>25</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-2">
+                                    第2名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-02 00:11:37                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>0/14</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>0/8</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>3913</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>-20</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-other">
+                                    第8名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-01 23:54:05                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>7/17</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>5/0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>1937</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-3">
+                                    第3名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-01 23:30:21                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>156/74</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>16/8</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>8240</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-01 23:16:00                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>52/33</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>11/7</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>2721</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>-10</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-other">
+                                    第6名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-02-01 19:53:47                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>0/4</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>0/3</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>1026593</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-01-31 23:30:19                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>20/58</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>0/10</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>2327</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>15</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-4">
+                                    第4名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-01-31 22:58:14                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>0/4</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>1/4</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>28928</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-01-31 22:36:45                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>79/20</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>13/24</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>18988</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>25</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-2">
+                                    第2名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-01-31 22:18:15                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>27/27</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>1/39</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>19051</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>15</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result rank-4">
+                                    第4名                                </p>
+                                                    </div>
+                                            <div class="match-item">
+                            <div class="match-header">
+                                <div class="map-name">环湖(10p)</div>
+                                <div class="match-time">
+                                    2025-01-31 20:10:50                                </div>
+                            </div>
+                            
+                            <div class="match-stats">
+                                <div class="stat-item">
+                                    <span>击杀/损失单位</span>
+                                    <span>146/40</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>摧毁/损失建筑</span>
+                                    <span>22/34</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>资源</span>
+                                    <span>209043</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span>得分</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+
+                                                                                            <p class="match-result win">
+                                    夺冠                                </p>
+                                                    </div>
+                                    </div>
+                    </div>
+    </div>
+
+    <script>
+        const scoreData = [{"start_time":"2025-01-31 20:10:50","formatted_time":"2025-01-31 20:10","match_score":50,"cumulative_score":1415},{"start_time":"2025-01-31 22:18:15","formatted_time":"2025-01-31 22:18","match_score":15,"cumulative_score":1430},{"start_time":"2025-01-31 22:36:45","formatted_time":"2025-01-31 22:36","match_score":25,"cumulative_score":1455},{"start_time":"2025-01-31 22:58:14","formatted_time":"2025-01-31 22:58","match_score":50,"cumulative_score":1505},{"start_time":"2025-01-31 23:30:19","formatted_time":"2025-01-31 23:30","match_score":15,"cumulative_score":1520},{"start_time":"2025-02-01 19:53:47","formatted_time":"2025-02-01 19:53","match_score":50,"cumulative_score":1570},{"start_time":"2025-02-01 23:16:00","formatted_time":"2025-02-01 23:16","match_score":-10,"cumulative_score":1560},{"start_time":"2025-02-01 23:30:21","formatted_time":"2025-02-01 23:30","match_score":50,"cumulative_score":1610},{"start_time":"2025-02-01 23:54:05","formatted_time":"2025-02-01 23:54","match_score":20,"cumulative_score":1630},{"start_time":"2025-02-02 00:11:37","formatted_time":"2025-02-02 00:11","match_score":-20,"cumulative_score":1610},{"start_time":"2025-02-02 05:02:39","formatted_time":"2025-02-02 05:02","match_score":25,"cumulative_score":1635},{"start_time":"2025-02-02 05:29:44","formatted_time":"2025-02-02 05:29","match_score":20,"cumulative_score":1655},{"start_time":"2025-02-02 06:26:02","formatted_time":"2025-02-02 06:26","match_score":20,"cumulative_score":1675},{"start_time":"2025-02-02 07:21:52","formatted_time":"2025-02-02 07:21","match_score":-10,"cumulative_score":1665},{"start_time":"2025-02-02 07:42:24","formatted_time":"2025-02-02 07:42","match_score":-30,"cumulative_score":1635},{"start_time":"2025-02-03 03:21:12","formatted_time":"2025-02-03 03:21","match_score":-10,"cumulative_score":1625},{"start_time":"2025-02-03 03:31:43","formatted_time":"2025-02-03 03:31","match_score":50,"cumulative_score":1675},{"start_time":"2025-02-03 06:14:12","formatted_time":"2025-02-03 06:14","match_score":50,"cumulative_score":1725},{"start_time":"2025-02-04 22:42:09","formatted_time":"2025-02-04 22:42","match_score":50,"cumulative_score":1775},{"start_time":"2025-03-16 00:28:04","formatted_time":"2025-03-16 00:28","match_score":15,"cumulative_score":1790}];
+        const labels = scoreData.map(item => item.formatted_time);
+        const scores = scoreData.map(item => item.cumulative_score);
+
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '积分',
+                    data: scores,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: window.innerWidth < 768 ? 2 : 4,
+                    pointBackgroundColor: 'rgb(75, 192, 192)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointHoverRadius: window.innerWidth < 768 ? 4 : 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        titleFont: {
+                            size: 14
+                        },
+                        bodyFont: {
+                            size: 13
+                        },
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                const score = context.raw;
+                                const matchScore = scoreData[context.dataIndex].match_score;
+                                return [
+                                    `总积分: ${Math.round(score).toLocaleString()}`,
+                                    `本局得分: ${matchScore > 0 ? '+' : ''}${matchScore}`
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return Math.round(value).toLocaleString();
+                            },
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12
+                            },
+                            maxTicksLimit: window.innerWidth < 768 ? 5 : 8
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxRotation: 0,
+                            minRotation: 0,
+                            maxTicksLimit: window.innerWidth < 768 ? 5 : 8,
+                            callback: function(value, index) {
+                                const date = new Date(scoreData[index].start_time);
+                                return window.innerWidth < 768 
+                                    ? `${date.getMonth() + 1}/${date.getDate()}`
+                                    : `${date.getMonth() + 1}月${date.getDate()}日`;
+                            },
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    </script>
+    <script>
+        function confirmDelete() {
+            return confirm('警告：此操作将永久删除该玩家账号及相关数据，且无法恢复！确定要继续吗？');
+        }
+    </script>
+</body>
+
+<!-- Mirrored from n.phpx.cn/player_detail.php?id=2489 by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:49 GMT -->
+</html>
+
+ 

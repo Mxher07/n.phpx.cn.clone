@@ -1,0 +1,442 @@
+  
+<!DOCTYPE html>
+<html lang="zh">
+
+<!-- Mirrored from n.phpx.cn/backstab/nominations.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:32:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背刺榜提名审核</title>
+    <link rel="stylesheet" href="../css/style.html">
+    <style>
+        .backstab-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #f6f8ff 0%, #e9ecef 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .page-title {
+            color: #2b3a55;
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 800;
+            margin-bottom: 35px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+        }
+        .login-prompt {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .login-prompt p {
+            color: #2b3a55;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        .login-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ce1d1d, #ff4d4d);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(206, 29, 29, 0.2);
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(206, 29, 29, 0.3);
+        }
+        .search-form {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .search-form input {
+            padding: 12px 20px;
+            width: 70%;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            background: #f8f9fa;
+            color: #2b3a55;
+            margin-right: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        .search-form input:focus {
+            outline: none;
+            border-color: #ce1d1d;
+            box-shadow: 0 0 0 3px rgba(206, 29, 29, 0.1);
+        }
+        .search-form button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ce1d1d, #ff4d4d);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .search-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(206, 29, 29, 0.2);
+        }
+        .nomination-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+        .nomination-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        }
+        .support-progress {
+            height: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .support-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ce1d1d, #ff4d4d);
+            transition: width 0.3s ease;
+        }
+        .support-btn {
+            background: linear-gradient(135deg, #ce1d1d, #ff4d4d);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(206, 29, 29, 0.2);
+        }
+        .support-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(206, 29, 29, 0.3);
+        }
+        .support-btn:disabled {
+            background: #ced4da;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="backstab-container">
+        <div class="tab-buttons">
+            <a href="index-2.html" class="tab-button">背刺排行</a>
+            <a href="nominations.html" class="tab-button active">提名审核</a>
+        </div>
+
+        <h2>提名审核列表</h2>
+        
+                <div class="login-prompt">
+            <p>请先登录以提名玩家和支持提名</p>
+            <a href="login.html" class="login-btn">登录</a>
+        </div>
+        
+        <div class="nominations-list">
+                        <div class="nomination-card">
+                <div>提名玩家：泥哥</div>
+                <div>提名者：权势滔天</div>
+                <div>当前支持：2/10</div>
+                <div>提名时间：2025-04-05 00:37</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：Moder</div>
+                <div>提名者：权势滔天</div>
+                <div>当前支持：1/10</div>
+                <div>提名时间：2025-04-05 00:35</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：解忧还得练</div>
+                <div>提名者：天秀</div>
+                <div>当前支持：5/10</div>
+                <div>提名时间：2025-04-03 18:35</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：最好的安排</div>
+                <div>提名者：最好的安排</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-04-02 03:53</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：三国时期的</div>
+                <div>提名者：星光熠熠</div>
+                <div>当前支持：2/10</div>
+                <div>提名时间：2025-04-01 05:21</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：Unnamed3462</div>
+                <div>提名者：子安武</div>
+                <div>当前支持：2/10</div>
+                <div>提名时间：2025-03-31 12:54</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：Unnamed6412</div>
+                <div>提名者：实名上网张贵生</div>
+                <div>当前支持：4/10</div>
+                <div>提名时间：2025-03-31 12:54</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：水陌寒笔</div>
+                <div>提名者：你墙白金针</div>
+                <div>当前支持：2/10</div>
+                <div>提名时间：2025-03-31 07:36</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：依旧</div>
+                <div>提名者：王文杰哦(本人)</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-30 17:07</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：简大王</div>
+                <div>提名者：王文杰哦(本人)</div>
+                <div>当前支持：5/10</div>
+                <div>提名时间：2025-03-30 17:06</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：王文杰哦</div>
+                <div>提名者：王文杰哦(本人)</div>
+                <div>当前支持：2/10</div>
+                <div>提名时间：2025-03-30 17:06</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：张贵生（三甲机枪派）（收徒ing...）</div>
+                <div>提名者：实名上网张贵生</div>
+                <div>当前支持：9/10</div>
+                <div>提名时间：2025-03-26 12:41</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：张贵生第八小号</div>
+                <div>提名者：实名上网张贵生</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-26 12:41</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：张贵生第四小号</div>
+                <div>提名者：实名上网张贵生</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-26 12:41</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：张贵生（三甲机枪派）（收徒ing...）2</div>
+                <div>提名者：实名上网张贵生</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-26 12:41</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：背刺4️⃣全家</div>
+                <div>提名者：剑瑞仙麟</div>
+                <div>当前支持：5/10</div>
+                <div>提名时间：2025-03-26 09:21</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：电10086</div>
+                <div>提名者：虫虫豆豆</div>
+                <div>当前支持：1/10</div>
+                <div>提名时间：2025-03-26 07:35</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：脑叶公司2</div>
+                <div>提名者：YNA</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-23 22:41</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：小容时</div>
+                <div>提名者：645890425</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-23 06:20</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：忠橙</div>
+                <div>提名者：小雨大王666</div>
+                <div>当前支持：4/10</div>
+                <div>提名时间：2025-03-22 05:53</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：脑叶公司</div>
+                <div>提名者：西峰堡</div>
+                <div>当前支持：6/10</div>
+                <div>提名时间：2025-03-22 04:32</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：最帅萌新</div>
+                <div>提名者：伤心tomato</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-21 13:26</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：秋离</div>
+                <div>提名者：京博</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-18 08:07</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：羊咩咩</div>
+                <div>提名者：生</div>
+                <div>当前支持：6/10</div>
+                <div>提名时间：2025-03-16 17:16</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：萌音楠沈</div>
+                <div>提名者：千依</div>
+                <div>当前支持：4/10</div>
+                <div>提名时间：2025-03-15 01:07</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：周文王的跟随者</div>
+                <div>提名者：🐶</div>
+                <div>当前支持：7/10</div>
+                <div>提名时间：2025-03-14 15:07</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：无敌小机甲</div>
+                <div>提名者：命运</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-14 10:45</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：赖创越他爸</div>
+                <div>提名者：传奇坠机王</div>
+                <div>当前支持：5/10</div>
+                <div>提名时间：2025-03-13 15:10</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：速攻小号</div>
+                <div>提名者：速攻</div>
+                <div>当前支持：7/10</div>
+                <div>提名时间：2025-03-12 15:28</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：no_one</div>
+                <div>提名者：洛烨</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-12 15:28</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：龙哥</div>
+                <div>提名者：YinFeiyu2023681</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-11 13:10</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：君王</div>
+                <div>提名者：埃斯特尔</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-03-09 08:56</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：没亩没母</div>
+                <div>提名者：杰瑞白给王</div>
+                <div>当前支持：6/10</div>
+                <div>提名时间：2025-03-08 13:59</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：金将军🚨伟大</div>
+                <div>提名者：剑瑞仙麟</div>
+                <div>当前支持：9/10</div>
+                <div>提名时间：2025-03-04 13:34</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：古月方源2</div>
+                <div>提名者：弑杀🔥垃圾大帝</div>
+                <div>当前支持：5/10</div>
+                <div>提名时间：2025-03-02 10:08</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：机枪永远的神</div>
+                <div>提名者：Ww</div>
+                <div>当前支持：5/10</div>
+                <div>提名时间：2025-03-02 08:42</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：地精</div>
+                <div>提名者：heikun</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-02-28 05:42</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：Unnamed1932</div>
+                <div>提名者：( ͡° ͜ʖ ͡°)1234</div>
+                <div>当前支持：4/10</div>
+                <div>提名时间：2025-02-26 15:02</div>
+                            </div>
+                        <div class="nomination-card">
+                <div>提名玩家：Unnamed1932</div>
+                <div>提名者：( ͡° ͜ʖ ͡°)1234</div>
+                <div>当前支持：3/10</div>
+                <div>提名时间：2025-02-26 15:02</div>
+                            </div>
+                    </div>
+    </div>
+
+    <script>
+        function supportNomination(nominationId) {
+            fetch('support.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `nomination_id=${nominationId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        }
+
+        function nominatePlayer(playerId, playerName) {
+            if (!confirm(`确定要提名玩家 ${playerName} 吗？`)) {
+                return;
+            }
+
+            fetch('nominate.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `player_id=${playerId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</body>
+
+<!-- Mirrored from n.phpx.cn/backstab/nominations.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:32:18 GMT -->
+</html>

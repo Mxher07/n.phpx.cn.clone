@@ -1,0 +1,96 @@
+  
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from n.phpx.cn/register.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>注册账号</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+        }
+        
+        .auth-card {
+            padding: 24px;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #666;
+        }
+        
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container auth-container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+        
+        <div class="card auth-card">
+            <h2 style="text-align: center; margin-bottom: 24px;">注册账号</h2>
+            
+            <div class="info-box" style="
+                background: #f8f9fa;
+                border-left: 4px solid var(--primary-color);
+                padding: 12px;
+                margin-bottom: 20px;
+                border-radius: 4px;
+                font-size: 14px;
+                color: #666;
+            ">
+                <p>💡 这是官网账号，和游戏账号无关。</p>
+                <p style="margin-top: 8px;">✨ 注册完点个人资料，我们会直接脑电波读取你的游戏账号信息，无需额外操作~</p>
+            </div>
+            
+                        
+            <form method="POST" action="#">
+                <div class="input-group">
+                    <label for="username">用户名 <span style="color: #666; font-size: 13px;">ps: 随便起，不需要和你游戏昵称相关</span></label>
+                    <input type="text" id="username" name="username" required 
+                           value=""
+                           autocomplete="username">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">密码 <span style="color: #666; font-size: 13px;">ps: 随便输入，自己记得住就行</span></label>
+                    <input type="password" id="password" name="password" required 
+                           minlength="6" autocomplete="new-password">
+                    <small style="color: #666; margin-top: 4px; display: block;">密码至少需要6个字符</small>
+                </div>
+                
+                <button type="submit" name="register" class="btn">注册</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>已有账号？<a href="login.html">立即登录</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Mirrored from n.phpx.cn/register.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:47 GMT -->
+</html> 

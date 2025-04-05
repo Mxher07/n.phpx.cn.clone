@@ -1,0 +1,1069 @@
+   
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from n.phpx.cn/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>混战锦标赛玩家排行榜</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --border-color: #e1e8ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .search-box {
+            margin: 15px 0;
+            padding: 0 10px;
+        }
+
+        .search-input {
+            height: 44px;
+            font-size: 16px;
+            padding: 0 15px;
+            border-radius: 22px;
+        }
+
+        .search-button {
+            height: 44px;
+            min-width: 80px;
+        }
+
+        table {
+            width: 100%;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            padding: 12px 8px;
+        }
+
+        .rank {
+            width: 50px;
+        }
+
+        .player-info {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+
+        .rank-title {
+            font-size: 0.8em;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: white;
+            display: inline-block;
+        }
+
+        /* 段位颜色样式 */
+        .rank-终极斗罗 {
+            background: linear-gradient(45deg, #FF0000, #FF69B4);
+        }
+
+        .rank-绝世斗罗 {
+            background: linear-gradient(45deg, #FF4500, #FF8C00);
+        }
+
+        .rank-无双斗罗 {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+        }
+
+        .rank-封号斗罗 {
+            background: linear-gradient(45deg, #9400D3, #8A2BE2);
+        }
+
+        .rank-魂斗罗 {
+            background: linear-gradient(45deg, #4169E1, #1E90FF);
+        }
+
+        .rank-魂圣 {
+            background: linear-gradient(45deg, #20B2AA, #48D1CC);
+        }
+
+        .rank-魂帝 {
+            background: linear-gradient(45deg, #3CB371, #98FB98);
+        }
+
+        .rank-魂王 {
+            background: linear-gradient(45deg, #CD853F, #DEB887);
+        }
+
+        .rank-魂宗 {
+            background: linear-gradient(45deg, #A0522D, #8B4513);
+        }
+
+        .rank-魂尊 {
+            background: linear-gradient(45deg, #696969, #808080);
+        }
+
+        .rank-大魂师 {
+            background: linear-gradient(45deg, #4F4F4F, #696969);
+        }
+
+        .rank-魂师 {
+            background: linear-gradient(45deg, #2F4F4F, #404040);
+        }
+
+        .rank-真正的强者 {
+            background: linear-gradient(45deg, #000000, #363636);
+        }
+
+        /* 添加一些悬停效果 */
+        .rank-title:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        /* 为前三名添加特殊样式 */
+        .top-3 .rank {
+            font-weight: bold;
+        }
+
+        .rank-1 .rank {
+            color: #FFD700;
+        }
+
+        .rank-2 .rank {
+            color: #C0C0C0;
+        }
+
+        .rank-3 .rank {
+            color: #CD7F32;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            th, td {
+                padding: 10px 5px;
+                font-size: 0.85em;
+            }
+
+            .rank-title {
+                font-size: 0.75em;
+            }
+        }
+
+        .pull-to-refresh {
+            text-align: center;
+            padding: 10px;
+            color: #666;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        tr:active {
+            background-color: #f0f0f0;
+        }
+
+        .rank-button:active {
+            transform: scale(0.98);
+        }
+
+        .rank-type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .rank-button {
+            width: 100%;
+            padding: 12px 5px;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            font-size: 0.9em;
+            touch-action: manipulation;
+        }
+
+        .rank-button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .rank-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .rank-type-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .rank-button {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+
+        .player-rank-info {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .player-rank-info .player-name {
+            font-weight: 500;
+        }
+
+        .player-rank-info .rank-info {
+            display: flex;
+            gap: 15px;
+        }
+
+        .player-rank-info strong {
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        @media (max-width: 480px) {
+            .player-rank-info {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+            
+            .player-rank-info .rank-info {
+                justify-content: center;
+            }
+        }
+
+        .search-tip {
+            background: rgba(74, 144, 226, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 4px;
+            color: var(--text-color);
+            font-size: 0.9em;
+            text-align: left;
+            margin-top: 5px;
+        }
+
+        .search-tip:before {
+            content: "💡";
+            margin-right: 8px;
+        }
+
+        .player-rank-info {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 480px) {
+            .player-rank-info {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+            
+            .player-rank-info .rank-info {
+                justify-content: center;
+            }
+        }
+
+        .server-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 100%);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
+            .server-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-value {
+                font-size: 1.2em;
+            }
+            
+            .stat-label {
+                font-size: 0.8em;
+            }
+        }
+
+        .player-info a.player-name {
+            color: #333;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+
+        .player-info a.player-name:hover {
+            color: #4a90e2;
+            text-decoration: underline;
+        }
+
+        /* 在原有样式的基础上添加模式切换按钮样式 */
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .mode-button {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            background: white;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .mode-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .mode-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+        }
+
+        /* 在原有样式的基础上添加吃鸡大逃杀的段位样式 */
+        .rank-皇帝 {
+            background: linear-gradient(45deg, #FF0000, #FF69B4);
+        }
+        
+        .rank-元首 {
+            background: linear-gradient(45deg, #FF4500, #FF8C00);
+        }
+        
+        .rank-元帅 {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+        }
+        
+        .rank-将军 {
+            background: linear-gradient(45deg, #9400D3, #8A2BE2);
+        }
+        
+        .rank-少将 {
+            background: linear-gradient(45deg, #4169E1, #1E90FF);
+        }
+        
+        .rank-上校 {
+            background: linear-gradient(45deg, #20B2AA, #48D1CC);
+        }
+        
+        .rank-少校 {
+            background: linear-gradient(45deg, #3CB371, #98FB98);
+        }
+        
+        .rank-上尉 {
+            background: linear-gradient(45deg, #CD853F, #DEB887);
+        }
+        
+        .rank-少尉 {
+            background: linear-gradient(45deg, #A0522D, #8B4513);
+        }
+        
+        .rank-上士 {
+            background: linear-gradient(45deg, #696969, #808080);
+        }
+        
+        .rank-下士 {
+            background: linear-gradient(45deg, #4F4F4F, #696969);
+        }
+        
+        .rank-新兵 {
+            background: linear-gradient(45deg, #2F4F4F, #404040);
+        }
+        
+        .rank-特种兵 {
+            background: linear-gradient(45deg, #000000, #363636);
+        }
+
+        /* 添加导航栏样式 */
+        .nav-bar {
+            background: #333;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        .nav-bar a:hover {
+            color: #ddd;
+        }
+
+        .account-panel {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome-text {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .account-buttons, .login-register-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .account-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+        }
+
+        .register-btn {
+            background: #28a745;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+        }
+
+        @media (max-width: 480px) {
+            .account-panel {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* 添加弹窗样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 400px;
+            z-index: 1001;
+        }
+
+        .game-account-item {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .modal-button {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .modal-button.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .modal-button.secondary {
+            background: #eee;
+            color: #333;
+        }
+
+        /* 底部导航栏样式 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 4px 16px;
+            border-radius: 12px;
+            min-width: 72px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+        }
+
+        .nav-icon span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transform: scale(1.2);
+        }
+
+        .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* 适配 iPhone 底部安全区域 */
+        @supports (padding: max(0px)) {
+            .bottom-nav {
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+                height: calc(60px + env(safe-area-inset-bottom));
+            }
+        }
+
+        /* 导航项点击效果 */
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* 导航项悬停效果 */
+        .nav-item:hover {
+            color: var(--primary-color);
+            background: rgba(74, 144, 226, 0.05);
+        }
+
+        /* 优化移动端显示 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin-bottom: calc(70px + env(safe-area-inset-bottom));
+            }
+
+            .bottom-nav {
+                padding: 8px 0;
+            }
+
+            .nav-icon {
+                font-size: 22px;
+            }
+
+            .nav-text {
+                font-size: 11px;
+            }
+        }
+
+        /* 添加导航项进入动画 */
+        @keyframes navItemEnter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-item {
+            animation: navItemEnter 0.3s ease-out backwards;
+        }
+
+        .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .nav-item:nth-child(3) { animation-delay: 0.3s; }
+
+        /* 添加三国排位的段位样式 */
+        .rank-主宰 {
+            background: linear-gradient(45deg, #FF0000, #FF69B4);
+        }
+        
+        .rank-仙帝 {
+            background: linear-gradient(45deg, #FF4500, #FF8C00);
+        }
+        
+        .rank-准仙帝 {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+        }
+        
+        .rank-仙王境 {
+            background: linear-gradient(45deg, #9400D3, #8A2BE2);
+        }
+        
+        .rank-真仙境 {
+            background: linear-gradient(45deg, #4169E1, #1E90FF);
+        }
+        
+        .rank-至尊境 {
+            background: linear-gradient(45deg, #20B2AA, #48D1CC);
+        }
+        
+        .rank-天神境 {
+            background: linear-gradient(45deg, #3CB371, #98FB98);
+        }
+        
+        .rank-神火境 {
+            background: linear-gradient(45deg, #CD853F, #DEB887);
+        }
+        
+        .rank-尊者境 {
+            background: linear-gradient(45deg, #A0522D, #8B4513);
+        }
+        
+        .rank-列阵境 {
+            background: linear-gradient(45deg, #696969, #808080);
+        }
+        
+        .rank-洞天境 {
+            background: linear-gradient(45deg, #4F4F4F, #696969);
+        }
+        
+        .rank-搬血境 {
+            background: linear-gradient(45deg, #2F4F4F, #404040);
+        }
+        
+        .rank-凡人 {
+            background: linear-gradient(45deg, #000000, #363636);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 添加账号系统区块 -->
+        <div class="account-panel">
+                            <div class="login-register-buttons">
+                    <a href="login.html" class="account-btn">登录</a>
+                    <a href="register.html" class="account-btn register-btn">注册</a>
+                </div>
+                    </div>
+
+        <h1>混战锦标赛玩家排行榜</h1>
+        
+        <!-- 添加模式切换按钮 -->
+        <div class="mode-selector">
+                            <button class="mode-button active"
+                        onclick="switchMode('melee')">
+                    混战锦标赛                </button>
+                            <button class="mode-button "
+                        onclick="switchMode('battle_royale')">
+                    吃鸡大逃杀                </button>
+                            <button class="mode-button "
+                        onclick="switchMode('three_kingdoms')">
+                    三国排位                </button>
+                    </div>
+        
+        <div class="server-stats">
+            <div class="stat-item">
+                <div class="stat-value">124,369</div>
+                <div class="stat-label">总玩家数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">331</div>
+                <div class="stat-label">在线玩家</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">2,947</div>
+                <div class="stat-label">今日活跃</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">340,389</div>
+                <div class="stat-label">总游戏局数</div>
+            </div>
+        </div>
+        
+        <div class="rank-type-selector">
+            <button class="rank-button active" data-type="score">积分排行</button>
+            <button class="rank-button" data-type="games">总局数排行</button>
+        </div>
+        
+        <div class="search-box">
+            <form method="GET" action="#" style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 500px;">
+                <input type="hidden" name="mode" value="melee">
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <input type="text" name="search" class="search-input" 
+                           placeholder="搜索玩家昵称..." 
+                           value="">
+                    <input type="hidden" name="type" value="score">
+                    <button type="submit" class="search-button">搜索</button>
+                </div>
+                            </form>
+        </div>
+
+        <table>
+            <tr>
+                <th class="rank">排名</th>
+                <th>玩家信息</th>
+                                    <th>积分</th>
+                            </tr>
+            <tr class='rank-1 top-3'><td class='rank'>1</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail03ce.html?id=16667' class='player-name'>南征北战</a></td><td>30320</td></tr><tr class='rank-2 top-3'><td class='rank'>2</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detaildb7c.html?id=3615' class='player-name'>Saber酱</a></td><td>13035</td></tr><tr class='rank-3 top-3'><td class='rank'>3</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detaildf69.html?id=1607' class='player-name'>时念叨笔名</a></td><td>12390</td></tr><tr class=''><td class='rank'>4</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailff06.html?id=1984' class='player-name'>Unnamed8082</a></td><td>10890</td></tr><tr class=''><td class='rank'>5</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailf614.html?id=1186' class='player-name'>Unnamed780</a></td><td>10740</td></tr><tr class=''><td class='rank'>6</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailbca1.html?id=3233' class='player-name'>橙子</a></td><td>10550</td></tr><tr class=''><td class='rank'>7</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailc007.html?id=3178' class='player-name'>是萌新宝宝哦</a></td><td>10435</td></tr><tr class=''><td class='rank'>8</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail0bf5.html?id=6060' class='player-name'>77呀！</a></td><td>10210</td></tr><tr class=''><td class='rank'>9</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail7762.html?id=4253' class='player-name'>大归</a></td><td>10165</td></tr><tr class=''><td class='rank'>10</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailcfb0.html?id=4472' class='player-name'>T^T</a></td><td>10015</td></tr><tr class=''><td class='rank'>11</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detaile4c8.html?id=9153' class='player-name'>魔神</a></td><td>10015</td></tr><tr class=''><td class='rank'>12</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail0ddb.html?id=8896' class='player-name'>小机甲</a></td><td>10000</td></tr><tr class=''><td class='rank'>13</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail91aa.html?id=64885' class='player-name'>Sakura</a></td><td>9055</td></tr><tr class=''><td class='rank'>14</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail481b.html?id=8724' class='player-name'>咬人猫</a></td><td>8955</td></tr><tr class=''><td class='rank'>15</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailf910.html?id=64261' class='player-name'>如故</a></td><td>8545</td></tr><tr class=''><td class='rank'>16</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailfd39.html?id=68520' class='player-name'>萌新想和高手对枪</a></td><td>8010</td></tr><tr class=''><td class='rank'>17</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail0466.html?id=25898' class='player-name'>小白</a></td><td>7990</td></tr><tr class=''><td class='rank'>18</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail619c.html?id=62' class='player-name'>秋风</a></td><td>7935</td></tr><tr class=''><td class='rank'>19</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail160c.html?id=63870' class='player-name'>小孩2</a></td><td>7700</td></tr><tr class=''><td class='rank'>20</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail26e4.html?id=15012' class='player-name'>a醒你</a></td><td>7470</td></tr><tr class=''><td class='rank'>21</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailc448.html?id=61398' class='player-name'>碎冰冰2</a></td><td>7350</td></tr><tr class=''><td class='rank'>22</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail9281.html?id=1915' class='player-name'>星辰★救赎</a></td><td>7210</td></tr><tr class=''><td class='rank'>23</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail2628.html?id=64303' class='player-name'>小悔</a></td><td>7185</td></tr><tr class=''><td class='rank'>24</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail1499.html?id=3868' class='player-name'>埃菲尔女神</a></td><td>7145</td></tr><tr class=''><td class='rank'>25</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detailaa54.html?id=1692' class='player-name'>軍詐</a></td><td>7020</td></tr><tr class=''><td class='rank'>26</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail67d3.html?id=1805' class='player-name'>王文杰哦</a></td><td>7015</td></tr><tr class=''><td class='rank'>27</td><td class='player-info'><span class='rank-title rank-终极斗罗'>终极斗罗</span><a href='player_detail8ae8.html?id=37271' class='player-name'>_:9_3</a></td><td>7005</td></tr><tr class=''><td class='rank'>28</td><td class='player-info'><span class='rank-title rank-绝世斗罗'>绝世斗罗</span><a href='player_detaile682.html?id=59273' class='player-name'>heikun</a></td><td>6980</td></tr><tr class=''><td class='rank'>29</td><td class='player-info'><span class='rank-title rank-绝世斗罗'>绝世斗罗</span><a href='player_detail899b.html?id=18908' class='player-name'>怵梦</a></td><td>6800</td></tr><tr class=''><td class='rank'>30</td><td class='player-info'><span class='rank-title rank-绝世斗罗'>绝世斗罗</span><a href='player_detail14f7.html?id=2103' class='player-name'>禁欲总裁 收徒</a></td><td>6415</td></tr><tr class=''><td class='rank'>31</td><td class='player-info'><span class='rank-title rank-绝世斗罗'>绝世斗罗</span><a href='player_detail0175.html?id=19537' class='player-name'>无敌之人</a></td><td>6400</td></tr><tr class=''><td class='rank'>32</td><td class='player-info'><span class='rank-title rank-绝世斗罗'>绝世斗罗</span><a href='player_detail56b5.html?id=29278' class='player-name'>ed955</a></td><td>6285</td></tr><tr class=''><td class='rank'>33</td><td class='player-info'><span class='rank-title rank-绝世斗罗'>绝世斗罗</span><a href='player_detail53e6.html?id=7659' class='player-name'>黑白白</a></td><td>6055</td></tr><tr class=''><td class='rank'>34</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detail7bfc.html?id=14850' class='player-name'>猫猫鼠鼠</a></td><td>5530</td></tr><tr class=''><td class='rank'>35</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detailf13f.html?id=108169' class='player-name'>四月的谎言</a></td><td>5490</td></tr><tr class=''><td class='rank'>36</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detaile49e.html?id=35810' class='player-name'>(●'◡'●)2</a></td><td>5290</td></tr><tr class=''><td class='rank'>37</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detaile757.html?id=63385' class='player-name'>懋貅</a></td><td>5230</td></tr><tr class=''><td class='rank'>38</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detail3c2b.html?id=14575' class='player-name'>如初大帝</a></td><td>5215</td></tr><tr class=''><td class='rank'>39</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detail9b76.html?id=13015' class='player-name'>不求虐t_f</a></td><td>5205</td></tr><tr class=''><td class='rank'>40</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detailbce2.html?id=115' class='player-name'>疯不觉</a></td><td>5160</td></tr><tr class=''><td class='rank'>41</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detaila987.html?id=22529' class='player-name'>就想搞对象</a></td><td>5085</td></tr><tr class=''><td class='rank'>42</td><td class='player-info'><span class='rank-title rank-无双斗罗'>无双斗罗</span><a href='player_detail290f.html?id=1006' class='player-name'>传奇掉分王(传说中的生物)</a></td><td>5060</td></tr><tr class=''><td class='rank'>43</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail7c00.html?id=16652' class='player-name'>★★略术决策♞战功赫赫★★</a></td><td>4980</td></tr><tr class=''><td class='rank'>44</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detaila32c.html?id=43107' class='player-name'>野史</a></td><td>4975</td></tr><tr class=''><td class='rank'>45</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail3264.html?id=7165' class='player-name'>橙猫猫2</a></td><td>4950</td></tr><tr class=''><td class='rank'>46</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail224b.html?id=16319' class='player-name'>凌天</a></td><td>4890</td></tr><tr class=''><td class='rank'>47</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail0a49.html?id=21713' class='player-name'>=_=24</a></td><td>4775</td></tr><tr class=''><td class='rank'>48</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail6cd8.html?id=73269' class='player-name'>普通人2</a></td><td>4755</td></tr><tr class=''><td class='rank'>49</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail4ab7.html?id=20368' class='player-name'>剑瑞仙麟2</a></td><td>4750</td></tr><tr class=''><td class='rank'>50</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail6545.html?id=30370' class='player-name'>铁板斗罗</a></td><td>4735</td></tr><tr class=''><td class='rank'>51</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailb790.html?id=39348' class='player-name'>铁锈全汉化版玩家5512</a></td><td>4630</td></tr><tr class=''><td class='rank'>52</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detaila176.html?id=60695' class='player-name'>兔子✩✮✭</a></td><td>4625</td></tr><tr class=''><td class='rank'>53</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail9cfb.html?id=8156' class='player-name'>？？</a></td><td>4615</td></tr><tr class=''><td class='rank'>54</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail7632.html?id=37020' class='player-name'>子安武</a></td><td>4615</td></tr><tr class=''><td class='rank'>55</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail25d9.html?id=3563' class='player-name'>小呆那</a></td><td>4605</td></tr><tr class=''><td class='rank'>56</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail2927.html?id=7424' class='player-name'>Yellow</a></td><td>4540</td></tr><tr class=''><td class='rank'>57</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail6270.html?id=55960' class='player-name'>ios玩家</a></td><td>4510</td></tr><tr class=''><td class='rank'>58</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detaile8a2.html?id=20221' class='player-name'>简大王</a></td><td>4435</td></tr><tr class=''><td class='rank'>59</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail1664.html?id=5589' class='player-name'>落叶.</a></td><td>4425</td></tr><tr class=''><td class='rank'>60</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail218d.html?id=48168' class='player-name'>轻松时刻</a></td><td>4410</td></tr><tr class=''><td class='rank'>61</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailc1f2.html?id=47776' class='player-name'>纵横家</a></td><td>4390</td></tr><tr class=''><td class='rank'>62</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailb6c6.html?id=55286' class='player-name'>小坦2</a></td><td>4370</td></tr><tr class=''><td class='rank'>63</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailee30.html?id=1156' class='player-name'>铁锈全汉化版玩家252</a></td><td>4325</td></tr><tr class=''><td class='rank'>64</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail1f1b.html?id=58544' class='player-name'>露露</a></td><td>4290</td></tr><tr class=''><td class='rank'>65</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail979a.html?id=13425' class='player-name'>Unnamed4282</a></td><td>4225</td></tr><tr class=''><td class='rank'>66</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailb606.html?id=16989' class='player-name'>🇬🇧大英帝国🇬🇧</a></td><td>4195</td></tr><tr class=''><td class='rank'>67</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailfc53.html?id=3794' class='player-name'>财神爷</a></td><td>4190</td></tr><tr class=''><td class='rank'>68</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detail4c85.html?id=6302' class='player-name'>ban我踢我全家暴毙</a></td><td>4185</td></tr><tr class=''><td class='rank'>69</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detaila7bc.html?id=33938' class='player-name'>Unnamed2412</a></td><td>4055</td></tr><tr class=''><td class='rank'>70</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailc7e0.html?id=3520' class='player-name'>肤浅</a></td><td>4025</td></tr><tr class=''><td class='rank'>71</td><td class='player-info'><span class='rank-title rank-封号斗罗'>封号斗罗</span><a href='player_detailb955.html?id=9035' class='player-name'>6662</a></td><td>4005</td></tr><tr class=''><td class='rank'>72</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail3093.html?id=12809' class='player-name'>词组</a></td><td>3890</td></tr><tr class=''><td class='rank'>73</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail5fde.html?id=35506' class='player-name'>背刺思慕</a></td><td>3870</td></tr><tr class=''><td class='rank'>74</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail9660.html?id=60642' class='player-name'>🙈2</a></td><td>3855</td></tr><tr class=''><td class='rank'>75</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail3f97.html?id=6893' class='player-name'>清风2</a></td><td>3840</td></tr><tr class=''><td class='rank'>76</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail5494.html?id=22908' class='player-name'>q鼠w仔q</a></td><td>3825</td></tr><tr class=''><td class='rank'>77</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail19a6.html?id=25781' class='player-name'>猫猫</a></td><td>3780</td></tr><tr class=''><td class='rank'>78</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail9b20.html?id=8454' class='player-name'>壳子</a></td><td>3755</td></tr><tr class=''><td class='rank'>79</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaildf2f.html?id=1381' class='player-name'>屯蛋哥</a></td><td>3755</td></tr><tr class=''><td class='rank'>80</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail3d23.html?id=4719' class='player-name'>环湖</a></td><td>3730</td></tr><tr class=''><td class='rank'>81</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detailcdbc.html?id=94636' class='player-name'>星光熠熠</a></td><td>3675</td></tr><tr class=''><td class='rank'>82</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail6acf.html?id=76357' class='player-name'>九鱼游</a></td><td>3670</td></tr><tr class=''><td class='rank'>83</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail1edd.html?id=73101' class='player-name'>bibi羁绊</a></td><td>3660</td></tr><tr class=''><td class='rank'>84</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detailf352.html?id=64951' class='player-name'>Unnamed4562</a></td><td>3595</td></tr><tr class=''><td class='rank'>85</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaila028.html?id=2443' class='player-name'>好梦易醒</a></td><td>3555</td></tr><tr class=''><td class='rank'>86</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail6c10.html?id=54900' class='player-name'>点灯人</a></td><td>3550</td></tr><tr class=''><td class='rank'>87</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail4342.html?id=22663' class='player-name'>ggbondq</a></td><td>3500</td></tr><tr class=''><td class='rank'>88</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail7ff7.html?id=7083' class='player-name'>嘀嗒</a></td><td>3500</td></tr><tr class=''><td class='rank'>89</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail0709.html?id=58468' class='player-name'>.黍黍</a></td><td>3410</td></tr><tr class=''><td class='rank'>90</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail1ef0.html?id=81305' class='player-name'>秦始皇·嬴政</a></td><td>3410</td></tr><tr class=''><td class='rank'>91</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail5769.html?id=108676' class='player-name'>浸慧</a></td><td>3390</td></tr><tr class=''><td class='rank'>92</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaildcba.html?id=19462' class='player-name'>sjjs</a></td><td>3380</td></tr><tr class=''><td class='rank'>93</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail8f84.html?id=933' class='player-name'>四号H型</a></td><td>3325</td></tr><tr class=''><td class='rank'>94</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail9dd1.html?id=1293' class='player-name'>威震天</a></td><td>3275</td></tr><tr class=''><td class='rank'>95</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaild5a9.html?id=26605' class='player-name'>😘😘😘2</a></td><td>3260</td></tr><tr class=''><td class='rank'>96</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detailc49b.html?id=39379' class='player-name'>羊咩咩</a></td><td>3230</td></tr><tr class=''><td class='rank'>97</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail8227.html?id=10599' class='player-name'>珮珮</a></td><td>3210</td></tr><tr class=''><td class='rank'>98</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaild658.html?id=19485' class='player-name'>008080</a></td><td>3200</td></tr><tr class=''><td class='rank'>99</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaild7ce.html?id=18082' class='player-name'>совет★苏宁宗</a></td><td>3195</td></tr><tr class=''><td class='rank'>100</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail0c0f.html?id=45146' class='player-name'>林沉</a></td><td>3170</td></tr><tr class=''><td class='rank'>101</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail725d.html?id=55489' class='player-name'>cajnw614</a></td><td>3145</td></tr><tr class=''><td class='rank'>102</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detailb2fc.html?id=11177' class='player-name'>阿祖</a></td><td>3145</td></tr><tr class=''><td class='rank'>103</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail6fb5.html?id=31' class='player-name'>bgnm</a></td><td>3135</td></tr><tr class=''><td class='rank'>104</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detailda75.html?id=1946' class='player-name'>民族社会主义中国工人党</a></td><td>3120</td></tr><tr class=''><td class='rank'>105</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail13d7.html?id=18526' class='player-name'>实际上就是</a></td><td>3095</td></tr><tr class=''><td class='rank'>106</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail62a4.html?id=68158' class='player-name'>天翼雨坠流星2</a></td><td>3090</td></tr><tr class=''><td class='rank'>107</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detailc8cf.html?id=39434' class='player-name'>打的你唧唧叫，你还不服了是吧</a></td><td>3055</td></tr><tr class=''><td class='rank'>108</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detail4ced.html?id=23186' class='player-name'>绿龙</a></td><td>3030</td></tr><tr class=''><td class='rank'>109</td><td class='player-info'><span class='rank-title rank-魂斗罗'>魂斗罗</span><a href='player_detaile00e.html?id=7075' class='player-name'>😰🔫一_一</a></td><td>3020</td></tr><tr class=''><td class='rank'>110</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailac65.html?id=74360' class='player-name'>Unnamed1812</a></td><td>2990</td></tr><tr class=''><td class='rank'>111</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5126.html?id=91519' class='player-name'>jj太大好烦</a></td><td>2980</td></tr><tr class=''><td class='rank'>112</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailb32d.html?id=7230' class='player-name'>👿👿👿2</a></td><td>2950</td></tr><tr class=''><td class='rank'>113</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailaeed.html?id=23118' class='player-name'>踏空王</a></td><td>2950</td></tr><tr class=''><td class='rank'>114</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail63db.html?id=3161' class='player-name'>铁锈全汉化版玩家170</a></td><td>2890</td></tr><tr class=''><td class='rank'>115</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaild72f.html?id=77559' class='player-name'>环湖技术检测员</a></td><td>2870</td></tr><tr class=''><td class='rank'>116</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail4ea9.html?id=10176' class='player-name'>大佬带我（</a></td><td>2860</td></tr><tr class=''><td class='rank'>117</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailfecd.html?id=50785' class='player-name'>无双大黄瓜</a></td><td>2845</td></tr><tr class=''><td class='rank'>118</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail074a.html?id=5590' class='player-name'>打不过就加入</a></td><td>2845</td></tr><tr class=''><td class='rank'>119</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail249c.html?id=29806' class='player-name'>铁锈全汉化版玩家1482</a></td><td>2830</td></tr><tr class=''><td class='rank'>120</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail97c2.html?id=39168' class='player-name'>20徒机枪派</a></td><td>2825</td></tr><tr class=''><td class='rank'>121</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailaf6a.html?id=36213' class='player-name'>古城◈棕树</a></td><td>2805</td></tr><tr class=''><td class='rank'>122</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail55ec.html?id=72022' class='player-name'>铁锈全汉化版玩家352</a></td><td>2780</td></tr><tr class=''><td class='rank'>123</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail1591.html?id=15449' class='player-name'>b站T活人T</a></td><td>2765</td></tr><tr class=''><td class='rank'>124</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaild4fb.html?id=106894' class='player-name'>吕德华</a></td><td>2715</td></tr><tr class=''><td class='rank'>125</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaile595.html?id=13414' class='player-name'>秋日2</a></td><td>2700</td></tr><tr class=''><td class='rank'>126</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail3a5b.html?id=28922' class='player-name'>核聚变</a></td><td>2695</td></tr><tr class=''><td class='rank'>127</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail9fca.html?id=2747' class='player-name'>影栏780</a></td><td>2695</td></tr><tr class=''><td class='rank'>128</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailafdd.html?id=10193' class='player-name'>哇靠</a></td><td>2695</td></tr><tr class=''><td class='rank'>129</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail6739.html?id=1221' class='player-name'>夜雨</a></td><td>2685</td></tr><tr class=''><td class='rank'>130</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf7dd.html?id=16311' class='player-name'>😅2</a></td><td>2685</td></tr><tr class=''><td class='rank'>131</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail1673.html?id=4502' class='player-name'>飞到月上</a></td><td>2680</td></tr><tr class=''><td class='rank'>132</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf2fa.html?id=46492' class='player-name'>掠过2</a></td><td>2670</td></tr><tr class=''><td class='rank'>133</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail4231.html?id=3017' class='player-name'>dragon</a></td><td>2665</td></tr><tr class=''><td class='rank'>134</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail002f.html?id=55401' class='player-name'>墙？</a></td><td>2650</td></tr><tr class=''><td class='rank'>135</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail9218.html?id=736' class='player-name'>华中剿总</a></td><td>2640</td></tr><tr class=''><td class='rank'>136</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf137.html?id=25432' class='player-name'>Unnamed6532</a></td><td>2635</td></tr><tr class=''><td class='rank'>137</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailb9ae.html?id=1239' class='player-name'>❂苟王天下</a></td><td>2635</td></tr><tr class=''><td class='rank'>138</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailadee.html?id=56998' class='player-name'>虚空虫</a></td><td>2615</td></tr><tr class=''><td class='rank'>139</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5198.html?id=16794' class='player-name'>弗轻</a></td><td>2595</td></tr><tr class=''><td class='rank'>140</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail672a.html?id=43375' class='player-name'>勿念🐶</a></td><td>2585</td></tr><tr class=''><td class='rank'>141</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail0b67.html?id=8294' class='player-name'>小牛马</a></td><td>2575</td></tr><tr class=''><td class='rank'>142</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5cb4.html?id=81334' class='player-name'>移贱开添焖</a></td><td>2565</td></tr><tr class=''><td class='rank'>143</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail6333.html?id=43792' class='player-name'>法老打的91蛋</a></td><td>2560</td></tr><tr class=''><td class='rank'>144</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail9d07.html?id=18585' class='player-name'>uuu2</a></td><td>2550</td></tr><tr class=''><td class='rank'>145</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaila99f.html?id=9737' class='player-name'>青若风</a></td><td>2525</td></tr><tr class=''><td class='rank'>146</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail937e.html?id=12428' class='player-name'>Unnamed6402</a></td><td>2510</td></tr><tr class=''><td class='rank'>147</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail8664.html?id=1936' class='player-name'>未来</a></td><td>2485</td></tr><tr class=''><td class='rank'>148</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail2177.html?id=6349' class='player-name'>xxc</a></td><td>2480</td></tr><tr class=''><td class='rank'>149</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail76d4.html?id=827' class='player-name'>腰子</a></td><td>2460</td></tr><tr class=''><td class='rank'>150</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailda7d.html?id=33498' class='player-name'>捡植物的小僵尸</a></td><td>2460</td></tr><tr class=''><td class='rank'>151</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail8e8d.html?id=73667' class='player-name'>朱不可夫</a></td><td>2460</td></tr><tr class=''><td class='rank'>152</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5ac9.html?id=65305' class='player-name'>19972</a></td><td>2430</td></tr><tr class=''><td class='rank'>153</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf956.html?id=13378' class='player-name'>速成【沉】俾斯麦</a></td><td>2425</td></tr><tr class=''><td class='rank'>154</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaila2fb.html?id=230' class='player-name'>hjxyh</a></td><td>2405</td></tr><tr class=''><td class='rank'>155</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail1cb0.html?id=65667' class='player-name'>闲云野鹤</a></td><td>2405</td></tr><tr class=''><td class='rank'>156</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail6f3b.html?id=9474' class='player-name'>哈</a></td><td>2405</td></tr><tr class=''><td class='rank'>157</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaildd1d.html?id=25041' class='player-name'>狼人杀</a></td><td>2400</td></tr><tr class=''><td class='rank'>158</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaila2d9.html?id=17043' class='player-name'>无心不会玩</a></td><td>2400</td></tr><tr class=''><td class='rank'>159</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail273b.html?id=1175' class='player-name'>tanks</a></td><td>2400</td></tr><tr class=''><td class='rank'>160</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf302.html?id=34403' class='player-name'>银角</a></td><td>2390</td></tr><tr class=''><td class='rank'>161</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail6021.html?id=9964' class='player-name'>战鬼</a></td><td>2380</td></tr><tr class=''><td class='rank'>162</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf24c.html?id=31027' class='player-name'>hhh2</a></td><td>2380</td></tr><tr class=''><td class='rank'>163</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail4712.html?id=4119' class='player-name'>挚爱艾拉</a></td><td>2380</td></tr><tr class=''><td class='rank'>164</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail7243.html?id=46230' class='player-name'>yiyao667</a></td><td>2375</td></tr><tr class=''><td class='rank'>165</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailb832.html?id=9096' class='player-name'>UVV</a></td><td>2360</td></tr><tr class=''><td class='rank'>166</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail181a.html?id=47515' class='player-name'>后悔大哥</a></td><td>2360</td></tr><tr class=''><td class='rank'>167</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail64cb.html?id=35058' class='player-name'>机枪永远的神</a></td><td>2325</td></tr><tr class=''><td class='rank'>168</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailb275.html?id=93142' class='player-name'>落叶女朋友好看</a></td><td>2320</td></tr><tr class=''><td class='rank'>169</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaile7fd.html?id=1709' class='player-name'>哈哈2</a></td><td>2285</td></tr><tr class=''><td class='rank'>170</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailcf8b.html?id=5854' class='player-name'>朱可夫(😕🤔😎😭</a></td><td>2275</td></tr><tr class=''><td class='rank'>171</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaild9b2.html?id=50772' class='player-name'>killer-skip2</a></td><td>2265</td></tr><tr class=''><td class='rank'>172</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail047d.html?id=873' class='player-name'>0072</a></td><td>2255</td></tr><tr class=''><td class='rank'>173</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaild439.html?id=4615' class='player-name'>四世四公</a></td><td>2225</td></tr><tr class=''><td class='rank'>174</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail4ae7.html?id=55158' class='player-name'>Unnamed5712</a></td><td>2220</td></tr><tr class=''><td class='rank'>175</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail611d.html?id=1655' class='player-name'>兔子✩✮十全</a></td><td>2215</td></tr><tr class=''><td class='rank'>176</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail8159.html?id=14578' class='player-name'>菜鸡一个</a></td><td>2215</td></tr><tr class=''><td class='rank'>177</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailf05a.html?id=40350' class='player-name'>芝士奶酪</a></td><td>2205</td></tr><tr class=''><td class='rank'>178</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaile817.html?id=33649' class='player-name'>🤔🤒2</a></td><td>2200</td></tr><tr class=''><td class='rank'>179</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5d05.html?id=9686' class='player-name'>高手</a></td><td>2200</td></tr><tr class=''><td class='rank'>180</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail31a3.html?id=108206' class='player-name'>808</a></td><td>2185</td></tr><tr class=''><td class='rank'>181</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5955.html?id=6053' class='player-name'>懦夫（并不无敌）</a></td><td>2175</td></tr><tr class=''><td class='rank'>182</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail516e.html?id=75277' class='player-name'>哎呀！机甲位得了MVP前线就是躺赢狗</a></td><td>2175</td></tr><tr class=''><td class='rank'>183</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail3c63.html?id=8549' class='player-name'>你食不食油饼</a></td><td>2175</td></tr><tr class=''><td class='rank'>184</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailef67.html?id=25759' class='player-name'>银帝˙旕誒</a></td><td>2165</td></tr><tr class=''><td class='rank'>185</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailadd0.html?id=6884' class='player-name'>_:9_3</a></td><td>2155</td></tr><tr class=''><td class='rank'>186</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail6444.html?id=53521' class='player-name'>雪狐</a></td><td>2155</td></tr><tr class=''><td class='rank'>187</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail836d.html?id=1551' class='player-name'>88</a></td><td>2145</td></tr><tr class=''><td class='rank'>188</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail0fd6.html?id=268' class='player-name'>水晶</a></td><td>2135</td></tr><tr class=''><td class='rank'>189</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail17d8.html?id=42651' class='player-name'>琉璃2</a></td><td>2135</td></tr><tr class=''><td class='rank'>190</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaildbd8.html?id=54519' class='player-name'>曦酱⁧⁧~嘻(*¯︶¯*)⁧‭⁧‭</a></td><td>2135</td></tr><tr class=''><td class='rank'>191</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailfedb.html?id=763' class='player-name'>黃埔🇹🇼陳誠</a></td><td>2110</td></tr><tr class=''><td class='rank'>192</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail6d56.html?id=48003' class='player-name'>Zn</a></td><td>2100</td></tr><tr class=''><td class='rank'>193</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail9fa4.html?id=6833' class='player-name'>清朝老蒋申请出战！！！🐲🐲🐲</a></td><td>2100</td></tr><tr class=''><td class='rank'>194</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail8122.html?id=2865' class='player-name'>土匪</a></td><td>2095</td></tr><tr class=''><td class='rank'>195</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaild4cd.html?id=13319' class='player-name'>卿淑我心</a></td><td>2090</td></tr><tr class=''><td class='rank'>196</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail75f5.html?id=8673' class='player-name'>坂上</a></td><td>2075</td></tr><tr class=''><td class='rank'>197</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detailcda3.html?id=17004' class='player-name'>汤圆</a></td><td>2070</td></tr><tr class=''><td class='rank'>198</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail69b9.html?id=25915' class='player-name'>七七2</a></td><td>2070</td></tr><tr class=''><td class='rank'>199</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail2ab2.html?id=24922' class='player-name'>，，，2</a></td><td>2065</td></tr><tr class=''><td class='rank'>200</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detaile3bf.html?id=92605' class='player-name'>张贵生（三甲机枪派）（收徒ing...）2</a></td><td>2060</td></tr><tr class=''><td class='rank'>201</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail0255.html?id=64360' class='player-name'>1234562</a></td><td>2045</td></tr><tr class=''><td class='rank'>202</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail1cb4.html?id=1750' class='player-name'>天童-爱丽丝</a></td><td>2045</td></tr><tr class=''><td class='rank'>203</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail0ac3.html?id=32184' class='player-name'>爱依德</a></td><td>2040</td></tr><tr class=''><td class='rank'>204</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail4484.html?id=77691' class='player-name'>泰斗🔥★小念𝓗𝓪𝓱𝓪★（收徒）</a></td><td>2020</td></tr><tr class=''><td class='rank'>205</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail2298.html?id=59843' class='player-name'>df2</a></td><td>2015</td></tr><tr class=''><td class='rank'>206</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail9424.html?id=40700' class='player-name'>大大怪将军</a></td><td>2000</td></tr><tr class=''><td class='rank'>207</td><td class='player-info'><span class='rank-title rank-魂圣'>魂圣</span><a href='player_detail5e4c.html?id=20671' class='player-name'>雷神力大2</a></td><td>2000</td></tr><tr class=''><td class='rank'>208</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail9e18.html?id=10563' class='player-name'>太白仙尊</a></td><td>1990</td></tr><tr class=''><td class='rank'>209</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile734.html?id=25939' class='player-name'>伤心tomato</a></td><td>1980</td></tr><tr class=''><td class='rank'>210</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail6255.html?id=66637' class='player-name'>白给少年</a></td><td>1975</td></tr><tr class=''><td class='rank'>211</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailac92.html?id=5914' class='player-name'>|･ω･｀)</a></td><td>1975</td></tr><tr class=''><td class='rank'>212</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail2c6e.html?id=6596' class='player-name'>日耳曼</a></td><td>1965</td></tr><tr class=''><td class='rank'>213</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail1dd8.html?id=16058' class='player-name'>蓝礼</a></td><td>1955</td></tr><tr class=''><td class='rank'>214</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail7d4c.html?id=5842' class='player-name'>ghos</a></td><td>1950</td></tr><tr class=''><td class='rank'>215</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailf0af.html?id=44299' class='player-name'>黍²</a></td><td>1940</td></tr><tr class=''><td class='rank'>216</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail9780.html?id=35795' class='player-name'>给木给木</a></td><td>1935</td></tr><tr class=''><td class='rank'>217</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail0bd8.html?id=18078' class='player-name'>man2</a></td><td>1930</td></tr><tr class=''><td class='rank'>218</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail7295.html?id=38572' class='player-name'>(萌新)</a></td><td>1930</td></tr><tr class=''><td class='rank'>219</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail52c6.html?id=1122' class='player-name'>战区--影部</a></td><td>1905</td></tr><tr class=''><td class='rank'>220</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailc476.html?id=18777' class='player-name'>Unnamed2972</a></td><td>1900</td></tr><tr class=''><td class='rank'>221</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailcda9.html?id=94852' class='player-name'>【永不背刺】</a></td><td>1890</td></tr><tr class=''><td class='rank'>222</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail8d38.html?id=64643' class='player-name'>贪吃的小脑斧⁧~嗷⁧‭</a></td><td>1890</td></tr><tr class=''><td class='rank'>223</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail1c7d.html?id=15343' class='player-name'>Unnamed7002</a></td><td>1875</td></tr><tr class=''><td class='rank'>224</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaila7e6.html?id=51145' class='player-name'>fafaxwx</a></td><td>1870</td></tr><tr class=''><td class='rank'>225</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail1e09.html?id=17574' class='player-name'>南宫天</a></td><td>1865</td></tr><tr class=''><td class='rank'>226</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile127.html?id=28936' class='player-name'>192</a></td><td>1865</td></tr><tr class=''><td class='rank'>227</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailce51.html?id=60658' class='player-name'>蒋委员</a></td><td>1855</td></tr><tr class=''><td class='rank'>228</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaild9e6.html?id=124' class='player-name'>紫气升龙</a></td><td>1855</td></tr><tr class=''><td class='rank'>229</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailc72e.html?id=17316' class='player-name'>用户名2</a></td><td>1855</td></tr><tr class=''><td class='rank'>230</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailc26f.html?id=56568' class='player-name'>哈哈哈2</a></td><td>1850</td></tr><tr class=''><td class='rank'>231</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailb53a.html?id=8945' class='player-name'>红色</a></td><td>1845</td></tr><tr class=''><td class='rank'>232</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail5e92.html?id=53268' class='player-name'>千依</a></td><td>1835</td></tr><tr class=''><td class='rank'>233</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailfe58.html?id=50878' class='player-name'>6662</a></td><td>1825</td></tr><tr class=''><td class='rank'>234</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail18e1.html?id=61658' class='player-name'>𝑪𝒐𝒎𝒎𝒂𝒏𝒅𝒆𝒓✿32</a></td><td>1815</td></tr><tr class=''><td class='rank'>235</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail88ef.html?id=109329' class='player-name'>小猪</a></td><td>1810</td></tr><tr class=''><td class='rank'>236</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail79d1.html?id=21647' class='player-name'>U-96</a></td><td>1810</td></tr><tr class=''><td class='rank'>237</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail1328.html?id=3124' class='player-name'>（oooooo）</a></td><td>1805</td></tr><tr class=''><td class='rank'>238</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail5952.html?id=35244' class='player-name'>吞国</a></td><td>1790</td></tr><tr class=''><td class='rank'>239</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail714f.html?id=247' class='player-name'>苏尚卿</a></td><td>1790</td></tr><tr class=''><td class='rank'>240</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail219b.html?id=7547' class='player-name'>小熊2</a></td><td>1790</td></tr><tr class=''><td class='rank'>241</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail2728.html?id=2489' class='player-name'>屯蛋玩家</a></td><td>1790</td></tr><tr class=''><td class='rank'>242</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail1ec3.html?id=2892' class='player-name'>no_one</a></td><td>1780</td></tr><tr class=''><td class='rank'>243</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail9f51.html?id=7292' class='player-name'>落梦</a></td><td>1770</td></tr><tr class=''><td class='rank'>244</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailfec1.html?id=10953' class='player-name'>man2</a></td><td>1765</td></tr><tr class=''><td class='rank'>245</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail092f.html?id=19198' class='player-name'>铁锈玩家259</a></td><td>1765</td></tr><tr class=''><td class='rank'>246</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaildfea.html?id=54626' class='player-name'>Unnamed12</a></td><td>1765</td></tr><tr class=''><td class='rank'>247</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailea54.html?id=5802' class='player-name'>仙疯桃</a></td><td>1755</td></tr><tr class=''><td class='rank'>248</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile84a.html?id=22362' class='player-name'>复仇帝国</a></td><td>1755</td></tr><tr class=''><td class='rank'>249</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailcd49.html?id=24509' class='player-name'>路人😎</a></td><td>1750</td></tr><tr class=''><td class='rank'>250</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailab71.html?id=6593' class='player-name'>xu</a></td><td>1745</td></tr><tr class=''><td class='rank'>251</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail28db.html?id=42647' class='player-name'>忘记了</a></td><td>1745</td></tr><tr class=''><td class='rank'>252</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailc3cd.html?id=56080' class='player-name'>铁锈全汉化版玩家3942</a></td><td>1745</td></tr><tr class=''><td class='rank'>253</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail15e7.html?id=46849' class='player-name'>南科123</a></td><td>1735</td></tr><tr class=''><td class='rank'>254</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail2253.html?id=67757' class='player-name'>青月渊</a></td><td>1730</td></tr><tr class=''><td class='rank'>255</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail9684.html?id=60780' class='player-name'>洛烨</a></td><td>1730</td></tr><tr class=''><td class='rank'>256</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile52c.html?id=71480' class='player-name'>nono</a></td><td>1725</td></tr><tr class=''><td class='rank'>257</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailde63.html?id=24681' class='player-name'>心神</a></td><td>1725</td></tr><tr class=''><td class='rank'>258</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail07d8.html?id=8014' class='player-name'>周粥nb</a></td><td>1720</td></tr><tr class=''><td class='rank'>259</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail7b46.html?id=7211' class='player-name'>遇见</a></td><td>1710</td></tr><tr class=''><td class='rank'>260</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailea14.html?id=24499' class='player-name'>铅玻璃2</a></td><td>1710</td></tr><tr class=''><td class='rank'>261</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail3bce.html?id=72071' class='player-name'>toonoy</a></td><td>1705</td></tr><tr class=''><td class='rank'>262</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile6fc.html?id=14688' class='player-name'>古溪</a></td><td>1700</td></tr><tr class=''><td class='rank'>263</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail8e8b.html?id=7181' class='player-name'>唐王</a></td><td>1695</td></tr><tr class=''><td class='rank'>264</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail7d36.html?id=51' class='player-name'>AIB</a></td><td>1690</td></tr><tr class=''><td class='rank'>265</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile80e.html?id=75006' class='player-name'>东哥2</a></td><td>1690</td></tr><tr class=''><td class='rank'>266</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailbfa2.html?id=82662' class='player-name'>地脉</a></td><td>1690</td></tr><tr class=''><td class='rank'>267</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailf23a.html?id=30188' class='player-name'>雪山飞狐2</a></td><td>1680</td></tr><tr class=''><td class='rank'>268</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail135d.html?id=60080' class='player-name'>湖城2</a></td><td>1680</td></tr><tr class=''><td class='rank'>269</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail8231.html?id=28238' class='player-name'>银兰禾丂戈</a></td><td>1675</td></tr><tr class=''><td class='rank'>270</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaila14e.html?id=23254' class='player-name'>哒哒哒画家</a></td><td>1665</td></tr><tr class=''><td class='rank'>271</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail472a.html?id=25953' class='player-name'>582哦</a></td><td>1660</td></tr><tr class=''><td class='rank'>272</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailf8fd.html?id=29293' class='player-name'>🐑羊</a></td><td>1655</td></tr><tr class=''><td class='rank'>273</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail4abc.html?id=47782' class='player-name'>命脉哦</a></td><td>1635</td></tr><tr class=''><td class='rank'>274</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail2b7a.html?id=15344' class='player-name'>胡桃厨</a></td><td>1630</td></tr><tr class=''><td class='rank'>275</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail3534.html?id=64878' class='player-name'>Unnamed8562</a></td><td>1615</td></tr><tr class=''><td class='rank'>276</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaila759.html?id=43966' class='player-name'>Unnamed6482</a></td><td>1615</td></tr><tr class=''><td class='rank'>277</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail0e73.html?id=21887' class='player-name'>铁锈全汉化版玩家570</a></td><td>1615</td></tr><tr class=''><td class='rank'>278</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile76b.html?id=43279' class='player-name'>光明与黑暗</a></td><td>1615</td></tr><tr class=''><td class='rank'>279</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail55a7.html?id=37890' class='player-name'>上杉绘梨衣2</a></td><td>1615</td></tr><tr class=''><td class='rank'>280</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail61b5.html?id=30040' class='player-name'>Unnamed6402</a></td><td>1610</td></tr><tr class=''><td class='rank'>281</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailf476.html?id=7857' class='player-name'>安娜</a></td><td>1605</td></tr><tr class=''><td class='rank'>282</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile4a1.html?id=84805' class='player-name'>抢矿不奉陪</a></td><td>1605</td></tr><tr class=''><td class='rank'>283</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailb3e5.html?id=20158' class='player-name'>癌坤の鲲鲲（寻找小垃圾）</a></td><td>1605</td></tr><tr class=''><td class='rank'>284</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail4f16.html?id=48438' class='player-name'>vicissitude2</a></td><td>1600</td></tr><tr class=''><td class='rank'>285</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail04da.html?id=19510' class='player-name'>房主2</a></td><td>1595</td></tr><tr class=''><td class='rank'>286</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaile1e1.html?id=1415' class='player-name'>没有名字2</a></td><td>1590</td></tr><tr class=''><td class='rank'>287</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailc0ee.html?id=2768' class='player-name'>银河小铁骑</a></td><td>1590</td></tr><tr class=''><td class='rank'>288</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail878c.html?id=44989' class='player-name'>Unnamed77212</a></td><td>1585</td></tr><tr class=''><td class='rank'>289</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaild301.html?id=29260' class='player-name'>孤酒</a></td><td>1575</td></tr><tr class=''><td class='rank'>290</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailec52.html?id=74020' class='player-name'>背刺4️⃣全家</a></td><td>1565</td></tr><tr class=''><td class='rank'>291</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaildf8d.html?id=362' class='player-name'>51</a></td><td>1555</td></tr><tr class=''><td class='rank'>292</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail094f.html?id=55481' class='player-name'>寒竹</a></td><td>1535</td></tr><tr class=''><td class='rank'>293</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailef02.html?id=33259' class='player-name'>两岸青山</a></td><td>1530</td></tr><tr class=''><td class='rank'>294</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detaila306.html?id=3090' class='player-name'>LCCB-系长</a></td><td>1530</td></tr><tr class=''><td class='rank'>295</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail5097.html?id=63468' class='player-name'>和我和平发送aaa</a></td><td>1523</td></tr><tr class=''><td class='rank'>296</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detailfff9.html?id=68983' class='player-name'>Unnamed1132</a></td><td>1520</td></tr><tr class=''><td class='rank'>297</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail65e0.html?id=6112' class='player-name'>我很卡动不了</a></td><td>1520</td></tr><tr class=''><td class='rank'>298</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail7bb2.html?id=35141' class='player-name'>哈哈玩不了2</a></td><td>1515</td></tr><tr class=''><td class='rank'>299</td><td class='player-info'><span class='rank-title rank-魂帝'>魂帝</span><a href='player_detail8541.html?id=4190' class='player-name'>6662</a></td><td>1500</td></tr><tr class=''><td class='rank'>300</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailb1be.html?id=43361' class='player-name'>蒸汽时代</a></td><td>1495</td></tr><tr class=''><td class='rank'>301</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7020.html?id=65148' class='player-name'>金将军🌞万岁！</a></td><td>1495</td></tr><tr class=''><td class='rank'>302</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1933.html?id=32172' class='player-name'>笑笑😁😁😁😁😁😁2</a></td><td>1480</td></tr><tr class=''><td class='rank'>303</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila54e.html?id=67058' class='player-name'>铁锈全汉化版玩家1132</a></td><td>1470</td></tr><tr class=''><td class='rank'>304</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail48d7.html?id=29577' class='player-name'>随着蝴蝶一起消散吧，旧日的幻影</a></td><td>1470</td></tr><tr class=''><td class='rank'>305</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7417.html?id=15457' class='player-name'>unnamed4562</a></td><td>1465</td></tr><tr class=''><td class='rank'>306</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail60ab.html?id=8851' class='player-name'>Venoflam</a></td><td>1465</td></tr><tr class=''><td class='rank'>307</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9e55.html?id=6911' class='player-name'>德意志帝国师</a></td><td>1460</td></tr><tr class=''><td class='rank'>308</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail335b.html?id=8260' class='player-name'>4444466666</a></td><td>1460</td></tr><tr class=''><td class='rank'>309</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailcc31.html?id=1532' class='player-name'>👶🏻2</a></td><td>1450</td></tr><tr class=''><td class='rank'>310</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail46d6.html?id=7732' class='player-name'>普通人2</a></td><td>1445</td></tr><tr class=''><td class='rank'>311</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2338.html?id=8539' class='player-name'>大目dm</a></td><td>1445</td></tr><tr class=''><td class='rank'>312</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailb6d8.html?id=9587' class='player-name'>ÐДШП😂2025</a></td><td>1445</td></tr><tr class=''><td class='rank'>313</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail41c3.html?id=60508' class='player-name'>新梅凉粉集团CEO2</a></td><td>1435</td></tr><tr class=''><td class='rank'>314</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailfc6e.html?id=43787' class='player-name'>余华</a></td><td>1425</td></tr><tr class=''><td class='rank'>315</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila8bb.html?id=39825' class='player-name'>古德里安（帝国装甲）</a></td><td>1425</td></tr><tr class=''><td class='rank'>316</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila993.html?id=4102' class='player-name'>意大利帝国</a></td><td>1425</td></tr><tr class=''><td class='rank'>317</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5219.html?id=8668' class='player-name'>心烦意乱</a></td><td>1410</td></tr><tr class=''><td class='rank'>318</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail65f5.html?id=1649' class='player-name'>莎少莉</a></td><td>1410</td></tr><tr class=''><td class='rank'>319</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9a9a.html?id=74634' class='player-name'>黑呀哈</a></td><td>1405</td></tr><tr class=''><td class='rank'>320</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile298.html?id=61730' class='player-name'>好的2</a></td><td>1405</td></tr><tr class=''><td class='rank'>321</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail963a.html?id=4324' class='player-name'>夏虫</a></td><td>1400</td></tr><tr class=''><td class='rank'>322</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4fc5.html?id=26976' class='player-name'>Unnamed7982</a></td><td>1395</td></tr><tr class=''><td class='rank'>323</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailc99b.html?id=12314' class='player-name'>༺⌬༓猫࿈猫༓⌬༻</a></td><td>1390</td></tr><tr class=''><td class='rank'>324</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7423.html?id=9933' class='player-name'>吾妻_流萤😎</a></td><td>1385</td></tr><tr class=''><td class='rank'>325</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9c62.html?id=71605' class='player-name'>哈吉皮</a></td><td>1380</td></tr><tr class=''><td class='rank'>326</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailf68d.html?id=84928' class='player-name'>速成【沉】俾斯麦2</a></td><td>1380</td></tr><tr class=''><td class='rank'>327</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile5c9.html?id=26897' class='player-name'>星海2</a></td><td>1380</td></tr><tr class=''><td class='rank'>328</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0833.html?id=30406' class='player-name'>老发</a></td><td>1375</td></tr><tr class=''><td class='rank'>329</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8784.html?id=97554' class='player-name'>蝉鸣七月2</a></td><td>1375</td></tr><tr class=''><td class='rank'>330</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailfff0.html?id=17393' class='player-name'>Unnamed12</a></td><td>1370</td></tr><tr class=''><td class='rank'>331</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailb5fd.html?id=75563' class='player-name'>驴爹</a></td><td>1360</td></tr><tr class=''><td class='rank'>332</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailbf72.html?id=29622' class='player-name'>泰斗🔥★小念𝓗𝓪𝓱𝓪★</a></td><td>1355</td></tr><tr class=''><td class='rank'>333</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7be1.html?id=70912' class='player-name'>Unnamed272</a></td><td>1350</td></tr><tr class=''><td class='rank'>334</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail6577.html?id=10359' class='player-name'>继续继续</a></td><td>1350</td></tr><tr class=''><td class='rank'>335</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9a46.html?id=49456' class='player-name'>时间终点</a></td><td>1345</td></tr><tr class=''><td class='rank'>336</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaileb8b.html?id=60978' class='player-name'>黑曼巴</a></td><td>1345</td></tr><tr class=''><td class='rank'>337</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2298-2.html?id=16304' class='player-name'>1112</a></td><td>1340</td></tr><tr class=''><td class='rank'>338</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0f76.html?id=68477' class='player-name'>我想你了</a></td><td>1335</td></tr><tr class=''><td class='rank'>339</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail407f.html?id=9880' class='player-name'>安半愚.(晚安</a></td><td>1335</td></tr><tr class=''><td class='rank'>340</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaildf88.html?id=52055' class='player-name'>警校</a></td><td>1335</td></tr><tr class=''><td class='rank'>341</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8c3e.html?id=28483' class='player-name'>为空</a></td><td>1330</td></tr><tr class=''><td class='rank'>342</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail23cd.html?id=94964' class='player-name'>I_love_making_eggs😁</a></td><td>1330</td></tr><tr class=''><td class='rank'>343</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailcb6e.html?id=35755' class='player-name'>陆幺肆</a></td><td>1330</td></tr><tr class=''><td class='rank'>344</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail212f.html?id=8361' class='player-name'>水晶2</a></td><td>1330</td></tr><tr class=''><td class='rank'>345</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailcb88.html?id=2315' class='player-name'>吃饱了</a></td><td>1325</td></tr><tr class=''><td class='rank'>346</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile440.html?id=38237' class='player-name'>じ猫娘ゞ</a></td><td>1320</td></tr><tr class=''><td class='rank'>347</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail636d.html?id=28005' class='player-name'>Unnamed2</a></td><td>1320</td></tr><tr class=''><td class='rank'>348</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailc82f.html?id=51964' class='player-name'>白子吾妻</a></td><td>1320</td></tr><tr class=''><td class='rank'>349</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1e0f.html?id=17471' class='player-name'>月儿</a></td><td>1320</td></tr><tr class=''><td class='rank'>350</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5bfa.html?id=109187' class='player-name'>Unnamed1832</a></td><td>1320</td></tr><tr class=''><td class='rank'>351</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2b63.html?id=25137' class='player-name'>Unnamed8712</a></td><td>1320</td></tr><tr class=''><td class='rank'>352</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailfab1.html?id=11863' class='player-name'>铁锈全汉化版玩家1111</a></td><td>1320</td></tr><tr class=''><td class='rank'>353</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1817.html?id=33933' class='player-name'>小晓(烧)波➖Q~U_to</a></td><td>1315</td></tr><tr class=''><td class='rank'>354</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1263.html?id=2712' class='player-name'>古月方源</a></td><td>1305</td></tr><tr class=''><td class='rank'>355</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaileda6.html?id=77139' class='player-name'>速攻小号</a></td><td>1305</td></tr><tr class=''><td class='rank'>356</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4735.html?id=78069' class='player-name'>依旧</a></td><td>1305</td></tr><tr class=''><td class='rank'>357</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailf73e.html?id=23286' class='player-name'>玖辞_nine</a></td><td>1305</td></tr><tr class=''><td class='rank'>358</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8388.html?id=4070' class='player-name'>4188</a></td><td>1305</td></tr><tr class=''><td class='rank'>359</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9e7e.html?id=23703' class='player-name'>饭后前提</a></td><td>1305</td></tr><tr class=''><td class='rank'>360</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild681.html?id=1223' class='player-name'>赤砂三上</a></td><td>1300</td></tr><tr class=''><td class='rank'>361</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaildb86.html?id=10705' class='player-name'>1234567892</a></td><td>1295</td></tr><tr class=''><td class='rank'>362</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild1df.html?id=10552' class='player-name'>一团空气</a></td><td>1295</td></tr><tr class=''><td class='rank'>363</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild722.html?id=6649' class='player-name'>服务器ཽ</a></td><td>1290</td></tr><tr class=''><td class='rank'>364</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8825.html?id=81471' class='player-name'>前期不要造蛋</a></td><td>1290</td></tr><tr class=''><td class='rank'>365</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2d49.html?id=38919' class='player-name'>一只不屑的迪</a></td><td>1285</td></tr><tr class=''><td class='rank'>366</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9b9b.html?id=10392' class='player-name'>不知名玩家2</a></td><td>1280</td></tr><tr class=''><td class='rank'>367</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4010.html?id=39806' class='player-name'>。。。2</a></td><td>1280</td></tr><tr class=''><td class='rank'>368</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0d12.html?id=9432' class='player-name'>打爆你的狗头🐶🐶🐶🐶🐶🐶🐶</a></td><td>1280</td></tr><tr class=''><td class='rank'>369</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail70e1.html?id=322' class='player-name'>寒灵</a></td><td>1275</td></tr><tr class=''><td class='rank'>370</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail869b.html?id=7924' class='player-name'>古月方源2</a></td><td>1275</td></tr><tr class=''><td class='rank'>371</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9414.html?id=106993' class='player-name'>似在梦中游</a></td><td>1270</td></tr><tr class=''><td class='rank'>372</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail93fa.html?id=56852' class='player-name'>月儿2</a></td><td>1270</td></tr><tr class=''><td class='rank'>373</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail98a6.html?id=82239' class='player-name'>烟花易冷2</a></td><td>1270</td></tr><tr class=''><td class='rank'>374</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila859.html?id=23465' class='player-name'>Unnamed9027</a></td><td>1265</td></tr><tr class=''><td class='rank'>375</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail236e.html?id=21998' class='player-name'>个人站</a></td><td>1265</td></tr><tr class=''><td class='rank'>376</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailbc35.html?id=8284' class='player-name'>Unnamed4222</a></td><td>1260</td></tr><tr class=''><td class='rank'>377</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail26eb.html?id=97935' class='player-name'>和平</a></td><td>1260</td></tr><tr class=''><td class='rank'>378</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9e1a.html?id=73185' class='player-name'>一个小时</a></td><td>1245</td></tr><tr class=''><td class='rank'>379</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail10ae.html?id=6663' class='player-name'>只会前线的屑福腻</a></td><td>1245</td></tr><tr class=''><td class='rank'>380</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile446.html?id=73472' class='player-name'>和平使者</a></td><td>1245</td></tr><tr class=''><td class='rank'>381</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail76de.html?id=5355' class='player-name'>巨吊</a></td><td>1245</td></tr><tr class=''><td class='rank'>382</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail58f1.html?id=12628' class='player-name'>章鱼</a></td><td>1245</td></tr><tr class=''><td class='rank'>383</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9672.html?id=57077' class='player-name'>hana</a></td><td>1240</td></tr><tr class=''><td class='rank'>384</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail892d.html?id=81115' class='player-name'>asyou</a></td><td>1240</td></tr><tr class=''><td class='rank'>385</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5d69.html?id=28294' class='player-name'>卡子哥</a></td><td>1235</td></tr><tr class=''><td class='rank'>386</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila6e3.html?id=54609' class='player-name'>河马</a></td><td>1235</td></tr><tr class=''><td class='rank'>387</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailf6d2.html?id=29037' class='player-name'>akd2</a></td><td>1235</td></tr><tr class=''><td class='rank'>388</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail3a9e.html?id=23555' class='player-name'>ice-v76</a></td><td>1235</td></tr><tr class=''><td class='rank'>389</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail02b0.html?id=6277' class='player-name'>(_･⊝･∞)</a></td><td>1225</td></tr><tr class=''><td class='rank'>390</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1f5c.html?id=3195' class='player-name'>「智子」⁧柏林以东⁧</a></td><td>1225</td></tr><tr class=''><td class='rank'>391</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail346d.html?id=4852' class='player-name'>erp14.</a></td><td>1220</td></tr><tr class=''><td class='rank'>392</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail40fc.html?id=6130' class='player-name'>(´｡✪ω✪｡｀)鸭户</a></td><td>1220</td></tr><tr class=''><td class='rank'>393</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailc74c.html?id=6157' class='player-name'>₍˄·͈༝·͈˄*₎◞_̑̑</a></td><td>1215</td></tr><tr class=''><td class='rank'>394</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9cf4.html?id=26807' class='player-name'>人机爱丽丝</a></td><td>1215</td></tr><tr class=''><td class='rank'>395</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild35e.html?id=1953' class='player-name'>那年我双手插兜被打的不敢还手</a></td><td>1215</td></tr><tr class=''><td class='rank'>396</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5fd0.html?id=59848' class='player-name'>屯蛋派还在屯！</a></td><td>1210</td></tr><tr class=''><td class='rank'>397</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailcfa8.html?id=63635' class='player-name'>铁锈全汉化版玩家9526</a></td><td>1210</td></tr><tr class=''><td class='rank'>398</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8202.html?id=20055' class='player-name'>清梦</a></td><td>1205</td></tr><tr class=''><td class='rank'>399</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailafbc.html?id=5830' class='player-name'>小脑郭文宇</a></td><td>1205</td></tr><tr class=''><td class='rank'>400</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail3093-2.html?id=17594' class='player-name'>26号</a></td><td>1200</td></tr><tr class=''><td class='rank'>401</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8d89.html?id=59749' class='player-name'>命运</a></td><td>1190</td></tr><tr class=''><td class='rank'>402</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailaadf.html?id=20736' class='player-name'>本源不朽</a></td><td>1190</td></tr><tr class=''><td class='rank'>403</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5fd2.html?id=3256' class='player-name'>。。。。。。。。。。。。。</a></td><td>1190</td></tr><tr class=''><td class='rank'>404</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2ff7.html?id=35091' class='player-name'>thzzz</a></td><td>1190</td></tr><tr class=''><td class='rank'>405</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailce13.html?id=12399' class='player-name'>元旦快乐</a></td><td>1185</td></tr><tr class=''><td class='rank'>406</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile18e.html?id=47103' class='player-name'>代中花</a></td><td>1185</td></tr><tr class=''><td class='rank'>407</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail517b.html?id=909' class='player-name'>筑基老祖</a></td><td>1175</td></tr><tr class=''><td class='rank'>408</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9fac.html?id=21488' class='player-name'>🇷🇺2</a></td><td>1175</td></tr><tr class=''><td class='rank'>409</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila1ba.html?id=60861' class='player-name'>羽毛笔2</a></td><td>1175</td></tr><tr class=''><td class='rank'>410</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailf86a.html?id=42425' class='player-name'>emmm</a></td><td>1175</td></tr><tr class=''><td class='rank'>411</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaildf39.html?id=6079' class='player-name'>德意志</a></td><td>1175</td></tr><tr class=''><td class='rank'>412</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail3d46.html?id=27669' class='player-name'>落雪</a></td><td>1170</td></tr><tr class=''><td class='rank'>413</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailad9c.html?id=28729' class='player-name'>啥都玩的月计人</a></td><td>1150</td></tr><tr class=''><td class='rank'>414</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailce6b.html?id=37807' class='player-name'>GPCR</a></td><td>1150</td></tr><tr class=''><td class='rank'>415</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail66a3.html?id=41041' class='player-name'>OMO</a></td><td>1150</td></tr><tr class=''><td class='rank'>416</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailada7.html?id=1183' class='player-name'>Murphy</a></td><td>1145</td></tr><tr class=''><td class='rank'>417</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild3b4.html?id=23602' class='player-name'>嬴政🐸（新手）</a></td><td>1145</td></tr><tr class=''><td class='rank'>418</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailc066.html?id=60656' class='player-name'>实数</a></td><td>1140</td></tr><tr class=''><td class='rank'>419</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailc15f.html?id=17548' class='player-name'>Unnamed7412</a></td><td>1140</td></tr><tr class=''><td class='rank'>420</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail3a6f.html?id=28539' class='player-name'>旭日东升2</a></td><td>1140</td></tr><tr class=''><td class='rank'>421</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0f14.html?id=19830' class='player-name'>pekv</a></td><td>1135</td></tr><tr class=''><td class='rank'>422</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail54f6.html?id=9063' class='player-name'>6662</a></td><td>1135</td></tr><tr class=''><td class='rank'>423</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2fc5.html?id=33437' class='player-name'>哈基米2</a></td><td>1135</td></tr><tr class=''><td class='rank'>424</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailf5aa.html?id=59880' class='player-name'>Aa2</a></td><td>1130</td></tr><tr class=''><td class='rank'>425</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail772d.html?id=57817' class='player-name'>凌艺含</a></td><td>1130</td></tr><tr class=''><td class='rank'>426</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile45b.html?id=3414' class='player-name'>lin</a></td><td>1130</td></tr><tr class=''><td class='rank'>427</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail00b2.html?id=23296' class='player-name'>~zZ</a></td><td>1130</td></tr><tr class=''><td class='rank'>428</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0424.html?id=59285' class='player-name'>Unnamed6932</a></td><td>1130</td></tr><tr class=''><td class='rank'>429</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail190a.html?id=17' class='player-name'>讷河大王大皇帝</a></td><td>1125</td></tr><tr class=''><td class='rank'>430</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7034.html?id=22664' class='player-name'>钢门大神</a></td><td>1125</td></tr><tr class=''><td class='rank'>431</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail35b7.html?id=64637' class='player-name'>1.7</a></td><td>1125</td></tr><tr class=''><td class='rank'>432</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailaefc.html?id=24595' class='player-name'>秀策2</a></td><td>1120</td></tr><tr class=''><td class='rank'>433</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailbccb.html?id=88715' class='player-name'>白子2</a></td><td>1120</td></tr><tr class=''><td class='rank'>434</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5869.html?id=59006' class='player-name'>蓝色海洋.h</a></td><td>1115</td></tr><tr class=''><td class='rank'>435</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4d35.html?id=62079' class='player-name'>馒j无敌</a></td><td>1115</td></tr><tr class=''><td class='rank'>436</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail9748.html?id=75021' class='player-name'>路语</a></td><td>1115</td></tr><tr class=''><td class='rank'>437</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1696.html?id=22350' class='player-name'>非萌新人</a></td><td>1115</td></tr><tr class=''><td class='rank'>438</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7c59.html?id=89834' class='player-name'>Unnamed9212</a></td><td>1115</td></tr><tr class=''><td class='rank'>439</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0036.html?id=74302' class='player-name'>解忧还得练</a></td><td>1115</td></tr><tr class=''><td class='rank'>440</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail0ca5.html?id=64354' class='player-name'>PurpleGarden</a></td><td>1115</td></tr><tr class=''><td class='rank'>441</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7738.html?id=22200' class='player-name'>꧁༺༽༾旦木ཏ༿༼༻꧂2</a></td><td>1110</td></tr><tr class=''><td class='rank'>442</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1b75.html?id=50680' class='player-name'>枫蓝蓝</a></td><td>1110</td></tr><tr class=''><td class='rank'>443</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4c30.html?id=102' class='player-name'>Unnamed317</a></td><td>1105</td></tr><tr class=''><td class='rank'>444</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailbf68.html?id=43765' class='player-name'>铁锈全汉化版玩家8242</a></td><td>1105</td></tr><tr class=''><td class='rank'>445</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail29c9.html?id=78908' class='player-name'>路小雨⁢ ⁠</a></td><td>1100</td></tr><tr class=''><td class='rank'>446</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail740d.html?id=16455' class='player-name'>铁锈521</a></td><td>1100</td></tr><tr class=''><td class='rank'>447</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7237.html?id=84620' class='player-name'>落榜美术生。</a></td><td>1100</td></tr><tr class=''><td class='rank'>448</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail46c7.html?id=97860' class='player-name'>最帅萌新</a></td><td>1095</td></tr><tr class=''><td class='rank'>449</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaildaf9.html?id=36360' class='player-name'>煮酒涟漪</a></td><td>1095</td></tr><tr class=''><td class='rank'>450</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila131.html?id=18757' class='player-name'>晚安2</a></td><td>1095</td></tr><tr class=''><td class='rank'>451</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5e3d.html?id=74977' class='player-name'>苏德大战</a></td><td>1090</td></tr><tr class=''><td class='rank'>452</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail16e3.html?id=38217' class='player-name'>夜无</a></td><td>1085</td></tr><tr class=''><td class='rank'>453</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailc9c3.html?id=55586' class='player-name'>水陌菜笔</a></td><td>1085</td></tr><tr class=''><td class='rank'>454</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild717.html?id=47252' class='player-name'>Unnamed1452</a></td><td>1080</td></tr><tr class=''><td class='rank'>455</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail833a.html?id=430' class='player-name'>峰峰爷</a></td><td>1075</td></tr><tr class=''><td class='rank'>456</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail25b0.html?id=88711' class='player-name'>铁锈全汉化版玩家6662</a></td><td>1075</td></tr><tr class=''><td class='rank'>457</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail133f.html?id=84010' class='player-name'>鍐峰厜2</a></td><td>1070</td></tr><tr class=''><td class='rank'>458</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail11cc.html?id=5853' class='player-name'>小恶魔</a></td><td>1070</td></tr><tr class=''><td class='rank'>459</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2c5f.html?id=22209' class='player-name'>立塔仙帝</a></td><td>1070</td></tr><tr class=''><td class='rank'>460</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaila79f.html?id=44399' class='player-name'>半人马</a></td><td>1065</td></tr><tr class=''><td class='rank'>461</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail35b4.html?id=23364' class='player-name'>究极神贪</a></td><td>1065</td></tr><tr class=''><td class='rank'>462</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4676.html?id=24687' class='player-name'>谈人生</a></td><td>1065</td></tr><tr class=''><td class='rank'>463</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail338c.html?id=89430' class='player-name'>铁锈全汉化版玩家252</a></td><td>1060</td></tr><tr class=''><td class='rank'>464</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8044.html?id=4578' class='player-name'>廿安</a></td><td>1055</td></tr><tr class=''><td class='rank'>465</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaildf84.html?id=25290' class='player-name'>千里</a></td><td>1055</td></tr><tr class=''><td class='rank'>466</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailf18a.html?id=6080' class='player-name'>不胜神话</a></td><td>1055</td></tr><tr class=''><td class='rank'>467</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8f8f.html?id=91757' class='player-name'>蛋先生</a></td><td>1055</td></tr><tr class=''><td class='rank'>468</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile546.html?id=109580' class='player-name'>铁锈全汉化版玩家4352</a></td><td>1050</td></tr><tr class=''><td class='rank'>469</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail5114.html?id=80372' class='player-name'>铁锈全汉化版玩家1312</a></td><td>1050</td></tr><tr class=''><td class='rank'>470</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail4387.html?id=24470' class='player-name'>Unnamed7572</a></td><td>1050</td></tr><tr class=''><td class='rank'>471</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail009b.html?id=28940' class='player-name'>进来玩战争指挥官</a></td><td>1045</td></tr><tr class=''><td class='rank'>472</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail60a1.html?id=19361' class='player-name'>杀神白起</a></td><td>1045</td></tr><tr class=''><td class='rank'>473</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild343.html?id=79636' class='player-name'>周文王的跟随者</a></td><td>1040</td></tr><tr class=''><td class='rank'>474</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail74be.html?id=64749' class='player-name'>可口可乐</a></td><td>1040</td></tr><tr class=''><td class='rank'>475</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2c07.html?id=12552' class='player-name'>荒斗</a></td><td>1040</td></tr><tr class=''><td class='rank'>476</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailea94.html?id=23386' class='player-name'>O交部长</a></td><td>1030</td></tr><tr class=''><td class='rank'>477</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile426.html?id=14254' class='player-name'>ice-v34</a></td><td>1030</td></tr><tr class=''><td class='rank'>478</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7408.html?id=37530' class='player-name'>海马乃亚</a></td><td>1030</td></tr><tr class=''><td class='rank'>479</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail2f85.html?id=441' class='player-name'>1111111</a></td><td>1030</td></tr><tr class=''><td class='rank'>480</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail1993.html?id=5765' class='player-name'>小长毛</a></td><td>1030</td></tr><tr class=''><td class='rank'>481</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaildb22.html?id=15630' class='player-name'>Unnamed2072</a></td><td>1020</td></tr><tr class=''><td class='rank'>482</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail994b.html?id=23109' class='player-name'>the-meta-one</a></td><td>1015</td></tr><tr class=''><td class='rank'>483</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile44c.html?id=64663' class='player-name'>铁锈全汉化版玩家912</a></td><td>1015</td></tr><tr class=''><td class='rank'>484</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaile442.html?id=56343' class='player-name'>隆美尔2</a></td><td>1010</td></tr><tr class=''><td class='rank'>485</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail06c2.html?id=5554' class='player-name'>红尘</a></td><td>1010</td></tr><tr class=''><td class='rank'>486</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail8e6a.html?id=4411' class='player-name'>消散</a></td><td>1010</td></tr><tr class=''><td class='rank'>487</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail7466.html?id=56574' class='player-name'>句.</a></td><td>1010</td></tr><tr class=''><td class='rank'>488</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detaild481.html?id=59716' class='player-name'>萌音楠沈</a></td><td>1010</td></tr><tr class=''><td class='rank'>489</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailcd30.html?id=65182' class='player-name'>青山处处埋忠骨</a></td><td>1010</td></tr><tr class=''><td class='rank'>490</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailbbe9.html?id=11554' class='player-name'>入机2</a></td><td>1000</td></tr><tr class=''><td class='rank'>491</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detailfc2f.html?id=77776' class='player-name'>帝殇</a></td><td>1000</td></tr><tr class=''><td class='rank'>492</td><td class='player-info'><span class='rank-title rank-魂王'>魂王</span><a href='player_detail49ce.html?id=71495' class='player-name'>Unnamed8762</a></td><td>1000</td></tr><tr class=''><td class='rank'>493</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail81e6.html?id=65251' class='player-name'>Ug</a></td><td>995</td></tr><tr class=''><td class='rank'>494</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail0a9c.html?id=4932' class='player-name'>𝑪𝒐𝒎𝒎𝒂𝒏𝒅𝒆𝒓✿92</a></td><td>995</td></tr><tr class=''><td class='rank'>495</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detaild3db.html?id=54747' class='player-name'>新梅凉粉集团CEO2</a></td><td>995</td></tr><tr class=''><td class='rank'>496</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail91f4.html?id=1521' class='player-name'>机枪机甲</a></td><td>995</td></tr><tr class=''><td class='rank'>497</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail3fed.html?id=54728' class='player-name'>唐纳德Trump2</a></td><td>990</td></tr><tr class=''><td class='rank'>498</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail9609.html?id=63778' class='player-name'>德意志介入战局</a></td><td>990</td></tr><tr class=''><td class='rank'>499</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail0a72.html?id=17642' class='player-name'>雨诺🤓</a></td><td>990</td></tr><tr class=''><td class='rank'>500</td><td class='player-info'><span class='rank-title rank-魂宗'>魂宗</span><a href='player_detail1bdb.html?id=14842' class='player-name'>环湖猛新</a></td><td>985</td></tr>        </table>
+        <div id="loading" style="text-align: center; padding: 20px; display: none;">
+                    <span style="color: #666;">加载中...</span>
+                  </div><div id="load-more" style="text-align: center; padding: 20px;">
+                    <span style="color: #666;">向下滚动加载更多</span>
+                  </div>    </div>
+
+    <!-- 在 <body> 标签后添加弹窗 HTML 结构 -->
+    <div id="accountBindModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-title">系统通过脑电波检测到您的游戏账号</div>
+            <div id="accountsList"></div>
+            <div class="modal-actions">
+                <a href="register.html" class="modal-button primary">立即注册绑定</a>
+                <button class="modal-button secondary" onclick="closeAccountModal()">暂不绑定</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 在原有的 DOMContentLoaded 事件之前添加模式切换函数
+        function switchMode(mode) {
+            const searchParams = new URLSearchParams(window.location.search);
+            searchParams.set('mode', mode);
+            // 保持其他参数不变
+            if (searchParams.has('type')) {
+                searchParams.set('type', searchParams.get('type'));
+            }
+            if (searchParams.has('search')) {
+                searchParams.set('search', searchParams.get('search'));
+            }
+            window.location.href = '?' + searchParams.toString();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取当前排行类型
+            const currentType = new URLSearchParams(window.location.search).get('type') || 'score';
+            
+            // 设置对应按钮的激活状态
+            document.querySelectorAll('.rank-button').forEach(button => {
+                if (button.dataset.type === currentType) {
+                    button.classList.add('active');
+                }
+                
+                // 添加点击事件
+                button.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const searchParams = new URLSearchParams(window.location.search);
+                    searchParams.set('type', type);
+                    window.location.href = '?' + searchParams.toString();
+                });
+            });
+
+            // 添加下拉刷新功能
+            let touchStartY = 0;
+            let pullStarted = false;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchmove', function(e) {
+                const touch = e.touches[0];
+                const diff = touch.clientY - touchStartY;
+
+                if (window.scrollY === 0 && diff > 50 && !pullStarted) {
+                    pullStarted = true;
+                    document.querySelector('.pull-to-refresh').style.display = 'block';
+                }
+            }, { passive: true });
+
+            document.addEventListener('touchend', function() {
+                if (pullStarted) {
+                    pullStarted = false;
+                    document.querySelector('.pull-to-refresh').style.display = 'none';
+                    location.reload();
+                }
+            }, { passive: true });
+
+            // 优化点击延迟
+            document.querySelectorAll('button, a').forEach(el => {
+                el.addEventListener('touchstart', function(){}, {passive: true});
+            });
+
+            // 添加滚动加载功能
+            let loading = false;
+            let currentPage = 1;
+            const totalRows = 124369;
+            
+            function loadMoreData() {
+                if(loading) return;
+                
+                const nextPage = currentPage + 1;
+                if((nextPage - 1) * 500 >= totalRows) return;
+                
+                loading = true;
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('load-more').style.display = 'none';
+                
+                // 构建URL
+                const searchParams = new URLSearchParams(window.location.search);
+                searchParams.set('page', nextPage);
+                searchParams.set('mode', 'melee');
+                
+                // 发起AJAX请求
+                fetch('?' + searchParams.toString() + '&ajax=1')
+                    .then(response => response.text())
+                    .then(html => {
+                        // 直接将返回的HTML插入到表格末尾
+                        const tbody = document.querySelector('table tbody') || document.querySelector('table');
+                        tbody.insertAdjacentHTML('beforeend', html);
+                        
+                        currentPage = nextPage;
+                        loading = false;
+                        document.getElementById('loading').style.display = 'none';
+                        
+                        if(currentPage * 500 < totalRows) {
+                            document.getElementById('load-more').style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('加载失败:', error);
+                        loading = false;
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('load-more').style.display = 'block';
+                    });
+            }
+
+            // 监听滚动事件
+            window.addEventListener('scroll', () => {
+                if((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                    loadMoreData();
+                }
+            });
+        });
+
+        // 添加检查游戏账号的函数
+        function checkGameAccounts() {
+            fetch('api/check_game_accounts.json')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.accounts && data.accounts.length > 0) {
+                        const accountsList = document.getElementById('accountsList');
+                        accountsList.innerHTML = data.accounts.map(account => `
+                            <div class="game-account-item">
+                                <div>
+                                    <div>角色名：${account.name}</div>
+                                    <div>积分：${account.rank_score || 0}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                        document.getElementById('accountBindModal').style.display = 'block';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function closeAccountModal() {
+            document.getElementById('accountBindModal').style.display = 'none';
+        }
+
+        // 仅在未登录时检查游戏账号
+                document.addEventListener('DOMContentLoaded', function() {
+            checkGameAccounts();
+        });
+            </script>
+
+    <!-- 在 </div> container 之后、</body> 之前添加 -->
+    <nav class="bottom-nav">
+        <a href="index-2.html" class="nav-item active">
+            <div class="nav-icon"><span>🏆</span></div>
+            <span class="nav-text">排行榜</span>
+        </a>
+        <a href="blacklist.html" class="nav-item ">
+            <div class="nav-icon"><span>🚫</span></div>
+            <span class="nav-text">小黑屋</span>
+        </a>
+        <a href="shop.html" class="nav-item ">
+            <div class="nav-icon"><span>🛍️</span></div>
+            <span class="nav-text">商店</span>
+        </a>
+        <a href="videos/index.html" class="nav-item ">
+            <div class="nav-icon"><span>📹</span></div>
+            <span class="nav-text">精彩瞬间</span>
+        </a>
+        <a href="backstab/index.html" class="nav-item ">
+            <div class="nav-icon"><span>🗡️</span></div>
+            <span class="nav-text">背刺榜</span>
+        </a>
+                    <a href="login.html" class="nav-item ">
+                <div class="nav-icon"><span>👤</span></div>
+                <span class="nav-text">登录</span>
+            </a>
+            </nav>
+</body>
+
+<!-- Mirrored from n.phpx.cn/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 05 Apr 2025 09:30:51 GMT -->
+</html>
+
+ 
