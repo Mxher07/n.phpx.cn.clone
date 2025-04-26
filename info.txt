@@ -1,0 +1,2 @@
+NowVersion:12
+Links:"https://example.com/rw/hnlu/12.apk"
